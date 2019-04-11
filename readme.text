@@ -1,0 +1,57 @@
+
+   HalfWorm
+   ========
+   This is a two player game for OS/2 PM. It's not finished yet, so there are
+   a few missing features and .. interresting bugs.
+
+
+   Requirements
+   ============
+   * TIMER0.SYS
+   * OS/2 Base Multimedia
+   * DIVE capable drivers
+   * DART capable drivers
+   * OS2OM30.DLL (included in Warp4)
+
+
+   Known problems/Boring Bugs
+   ==========================
+   Sometimes worms are not hit by bullets and other worms. (It's related to
+   the fact that the worms are one pixel thick and when they move diagonally
+   they sometimes increase dx and dy at the same time.
+
+   Interresting bugs!
+   ------------------
+   Sometimes the game thread will lockup. If it ever happens, please try to
+   observe what triggered it, and report it to me.
+
+   Unimplemented features
+   ----------------------
+   * Frenzy
+   * Wriggly
+
+
+   I'm looking into rewriting the game for MGL and adding joystick support.
+   Adding joystick support would probably mean that I could limit the game to
+   four players instead of two.
+
+
+   Sound Support
+   =============
+   The game does have sound support, but I could not get WIC to create a
+   working archive for the sound package. I'll release the sound archive as
+   soon as possible.
+   (if you are in a hurry -- create a subdirectory called "sounds" in the
+   halfworm directory, and copy a few 16-bit 22.050KHz mono samples there.
+   Name them "worm_shoot.wav", "worm_died.wav", "bullet_bounce_wall.wav",
+   "ate_apple.wav".. Er.. And there are some more, but I can't remember them
+   right now).
+
+
+   Contact
+   =======
+   Feature requests, bug reports, complaints.....
+
+          FidoNet: 2:205/323.0
+   Internet email: Jan M. Danielsson <os2@telia.com>
+

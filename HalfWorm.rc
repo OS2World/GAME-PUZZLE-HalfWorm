@@ -1,0 +1,230 @@
+#include <os2.h>
+
+#include <resources.h>
+
+ICON WIN_HALFWORM resources\HalfWorm.ico
+
+STRINGTABLE LOADONCALL
+{
+   IDS_APPTITLE                          "HalfWorm 0.8.1"
+
+   IDS_LEFTWELCOME                       "Welcome to HalfWorm!"
+   IDS_RIGHTWELCOME                      "Written by Jan M. Danielsson <os2@telia.com>"
+
+   IDS_WONPREVGAME                       "Won previous game"
+   IDS_LOSTPREVGAME                      "Lost previous game"
+   IDS_DRAWPREVGAME                      "Last game ended in a draw"
+
+   IDS_NO_MODIFICATION_APPLE             "Eeeeewww! It was infested with worms..."
+
+   IDS_APPLE_LOWER_SPEED                 "Uh, I've been slowed down.."
+   IDS_APPLE_RAISE_SPEED                 "I can move faster!"
+   IDS_APPLE_RESET                       "I have been reborn!"
+   IDS_APPLE_AUTOFIRE                    "Yikes! It's stuck!"
+   IDS_APPLE_LOWER_FIRERATE              "My fire rate has been lowered. Boo-hoo!"
+   IDS_APPLE_RAISE_FIRERATE              "Higher fire rate! Bang-bang-bang! Yeah!"
+   IDS_APPLE_SLOWER_BULLETS              "I seem to have slower missiles"
+   IDS_APPLE_FASTER_BULLETS              "My missiles will travel faster!"
+   IDS_APPLE_PACIFIST                    "Weapons will never win any wars!"
+   IDS_APPLE_SUMMON_FRENZY               "Ieeeek! It's Frenzy! (unimplemented)"
+   IDS_APPLE_SUMMON_WRIGGLY              "Oh, no! Not that pesty drunk thing again?! (unimplemented)"
+   IDS_APPLE_MORE_BULLETS                "Hey! An upgraded launcher! MOAHAHAHA!!"
+   IDS_APPLE_LESS_BULLETS                "Boohoo! I lost my launcher!!"
+   IDS_APPLE_WRIGGLE                     "What the heck was in THAT apple?!"
+   IDS_APPLE_FATAL_ATTRACTION            "Awwwww.. Love .. so .. fatal."
+   IDS_APPLE_HOMING_BULLETS              "Neat! Homing -- I won't even have to aim!"
+   IDS_APPLE_BIGGER_EXPLOSIONS           "BOOOM! Moahahaha!"
+   IDS_APPLE_SMALLER_EXPLOSIONS          "Less powerful explosions! Bwuaaaah!.."
+   IDS_APPLE_BOUNCE_MORE                 "Rubber shells, huh? What will they think of next?"
+   IDS_APPLE_BOUNCE_LESS                 "I'll remove this rubber shell.."
+   IDS_APPLE_WARPINGBULLETS              "Warping weapons -- seems dangerous"
+   IDS_APPLE_DRUNKEN_MISSILES            "Drunken missiles!?"
+
+   IDS_WORM_DIED                         "Wormsy go bye-bye"
+
+   IDS_NO_MORE_PACIFIST                  "Pacifist-schmaschicist - I want to shoot something!"
+
+   IDS_PLAYER1                           "Player 1"
+   IDS_PLAYER2                           "Player 2"
+   IDS_ANTICLOCKROT                      "Counterclockwise rotation"
+   IDS_CLOCKROT                          "Clockwise rotation"
+   IDS_FIRE                              "Firing weapon"
+
+   IDS_PROFILE_NAME                      "HalfWorm.ini"
+   IDS_PRFAPP                            "HalfWorm"
+   IDS_PRFKEY_PLAYER_FORMAT              "Player%d"
+   IDS_PRFKEY_CONTROL_COUNTERCLOCKROT    ".rotate.counterclockwise"
+   IDS_PRFKEY_CONTROL_CLOCKROT           ".rotate.clockwise"
+   IDS_PRFKEY_CONTROL_FIRE               ".fire"
+   IDS_PRFKEY_FIRST_RUN                  "Initialized"
+   IDS_PRKKEY_SOUNDFX                    "SoundFX.active"
+   IDS_PRFKEY_SOUNDFX_VOLUME             "SoundFX.volume"
+   IDS_PRFKEY_BOARD_WIDTH                "Board.width"
+   IDS_PRFKEY_BOARD_HEIGHT               "Board.height"
+   IDS_PRFKEY_DOUBLE_SIZE                "Board.zoomed"
+   IDS_PRFKEY_FRAMEPOS                   "Frame.Position"
+}
+
+
+
+MENU WIN_HALFWORM
+{
+   SUBMENU  "~Game", IDM_GAME, MIS_TEXT, MIA_DISABLED
+   {
+      MENUITEM "~Start!\tF2", IDM_GAME_START, MIS_TEXT, MIA_DISABLED
+      MENUITEM SEPARATOR
+      MENUITEM "E~xit\tF3", IDM_GAME_EXIT
+   }
+   SUBMENU "~Settings", IDM_SETTINGS
+   {
+      MENUITEM "~Boardsize..", IDM_SET_BOARDSIZE, MIS_TEXT, MIA_DISABLED
+      MENUITEM "~Keys..", IDM_SET_KEYS, MIS_TEXT, MIA_DISABLED
+      MENUITEM "~Double window size\tCtrl+d", IDM_SET_DOUBLE, MIS_TEXT, MIA_DISABLED
+      SUBMENU "~Sound effects", IDM_SET_SOUND, MIS_TEXT, MIA_DISABLED
+      {
+         MENUITEM "~Enabled", IDM_SET_SOUNDFX, MIS_TEXT, MIA_DISABLED
+         MENUITEM "~Volume..", IDM_SET_SOUNDVOL, MIS_TEXT, MIA_DISABLED
+      }
+   }
+   #ifdef DEBUG
+   SUBMENU "~Debug", IDM_DBG
+   {
+      MENUITEM "Create new apple", IDM_DBG_APPLE
+      SUBMENU "~Worm1", IDM_DBGW1
+      {
+         MENUITEM "Grow", IDM_DBGW1_GROW
+         MENUITEM "Faster", IDM_DBGW1_FASTER
+         MENUITEM "Slower", IDM_DBGW1_SLOWER
+         MENUITEM "Higher fire rate", IDM_DBGW1_FIRERATE_UP
+         MENUITEM "Lower fire rate", IDM_DBGW1_FIRERATE_DOWN
+         MENUITEM "Faster bullets", IDM_DBGW1_FASTER_BULLETS
+         MENUITEM "Slower bullets", IDM_DBGW1_SLOWER_BULLETS
+         MENUITEM "Bigger explosions", IDM_DBGW1_BIGGER_EXPLOSIONS
+         MENUITEM "Smaller explosions", IDM_DBGW1_SMALLER_EXPLOSIONS
+         MENUITEM "More bullets per shot", IDM_DBGW1_MORE_BULLETS
+         MENUITEM "Less bullets per shot", IDM_DBGW1_LESS_BULLETS
+         MENUITEM "Bullets bounce more", IDM_DBGW1_BOUNCE_MORE
+         MENUITEM "Bullets bounce less", IDM_DBGW1_BOUNCE_LESS
+         MENUITEM "Homing bullets", IDM_DBGW1_HOMING_BULLETS
+      }
+      SUBMENU "~Worm2", IDM_DBGW2
+      {
+         MENUITEM "Grow", IDM_DBGW2_GROW
+         MENUITEM "Faster", IDM_DBGW2_FASTER
+         MENUITEM "Slower", IDM_DBGW2_SLOWER
+         MENUITEM "Higher fire rate", IDM_DBGW2_FIRERATE_UP
+         MENUITEM "Lower fire rate", IDM_DBGW2_FIRERATE_DOWN
+         MENUITEM "Faster bullets", IDM_DBGW2_FASTER_BULLETS
+         MENUITEM "Slower bullets", IDM_DBGW2_SLOWER_BULLETS
+         MENUITEM "Bigger explosions", IDM_DBGW2_BIGGER_EXPLOSIONS
+         MENUITEM "Smaller explosions", IDM_DBGW2_SMALLER_EXPLOSIONS
+         MENUITEM "More bullets per shot", IDM_DBGW2_MORE_BULLETS
+         MENUITEM "Less bullets per shot", IDM_DBGW2_LESS_BULLETS
+         MENUITEM "Bullets bounce more", IDM_DBGW2_BOUNCE_MORE
+         MENUITEM "Bullets bounce less", IDM_DBGW2_BOUNCE_LESS
+         MENUITEM "Homing bullets", IDM_DBGW2_HOMING_BULLETS
+      }
+   }
+   #endif
+}
+
+ACCELTABLE WIN_HALFWORM
+{
+   VK_F2, IDM_GAME_START, VIRTUALKEY
+   VK_F3, IDM_GAME_EXIT, VIRTUALKEY
+   "d", IDM_SET_DOUBLE, CONTROL
+}
+
+
+
+/*
+DLGTEMPLATE DLG_CONFIG_KEYS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Configure keys", DLG_CONFIG_KEYS, 24, 56, 212, 76, WS_VISIBLE |
+            NOT WS_SAVEBITS, FCF_SYSMENU | FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    BEGIN
+        GROUPBOX        "Player 1", -1, 4, 24, 100, 48
+        ENTRYFIELD      "", EF_PLR1_ROT_CLOCK, 66, 54, 32, 8, ES_MARGIN
+        RTEXT           "Rotate clockwise", -1, 8, 52, 52, 12, DT_VCENTER
+        RTEXT           "...counterclockwise", -1, 8, 40, 52, 12, DT_VCENTER
+        ENTRYFIELD      "", EF_PLR1_ROT_ANTICLOCK, 66, 42, 32, 8, ES_MARGIN
+        ENTRYFIELD      "", EF_PLR1_SHOOT, 66, 30, 32, 8, ES_MARGIN
+        RTEXT           "Fire", -1, 8, 28, 52, 12, DT_VCENTER
+        GROUPBOX        "Player 2", -1, 108, 24, 100, 48
+        ENTRYFIELD      "", EF_PLR2_ROT_CLOCK, 170, 54, 32, 8, ES_MARGIN
+        RTEXT           "Rotate clockwise", -1, 112, 52, 52, 12, DT_VCENTER
+        RTEXT           "...counterclockwise", -1, 112, 40, 52, 12, DT_VCENTER
+        ENTRYFIELD      "", EF_PLR2_ROT_ANTICLOCK, 170, 42, 32, 8, ES_MARGIN
+        ENTRYFIELD      "", EF_PLR2_ROT_SHOOT, 170, 30, 32, 8, ES_MARGIN
+        RTEXT           "Fire", -1, 112, 28, 52, 12, DT_VCENTER
+        PUSHBUTTON      "~Ok", DID_OK, 4, 4, 44, 14
+        PUSHBUTTON      "~Cancel", DID_CANCEL, 52, 4, 40, 14
+    END
+END
+*/
+
+
+DLGTEMPLATE DLG_BOARD_SIZE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Game board size", DLG_BOARD_SIZE, 92, 48, 96, 88, WS_VISIBLE | NOT WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    BEGIN
+        GROUPBOX        "Size", -1, 4, 52, 88, 32
+        RTEXT           "Width", -1, 8, 68, 24, 8, DT_BOTTOM
+        SPINBUTTON      SPBN_WIDTH, 40, 68, 44, 12, SPBS_NUMERICONLY | SPBS_MASTER | SPBS_JUSTRIGHT | WS_GROUP
+        RTEXT           "Height", -1, 8, 56, 24, 8, DT_BOTTOM
+        SPINBUTTON      SPBN_HEIGHT, 40, 56, 44, 12, SPBS_NUMERICONLY | SPBS_MASTER | SPBS_JUSTRIGHT | WS_GROUP
+        PUSHBUTTON      "Maximize for desktop", BN_MAX_SIZE, 4, 36, 88, 14
+        PUSHBUTTON      "Maximize for double size", BN_MAX_SIZE_DOUBLE, 4, 20, 88, 14
+        PUSHBUTTON      "~Ok", DID_OK, 4, 4, 40, 12
+        PUSHBUTTON      "~Cancel", DID_CANCEL, 44, 4, 40, 12
+    END
+END
+
+
+DLGTEMPLATE DLG_CONFIG_KEYS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Key selection", DLG_CONFIG_KEYS, 52, 72, 108, 40, WS_VISIBLE | NOT
+            WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+    BEGIN
+        CTEXT           "Player 1", ST_PLAYER, 4, 28, 100, 8, DT_VCENTER
+        CTEXT           "Hit key for", -1, 4, 16, 100, 8, DT_VCENTER
+        CTEXT           "", ST_KEYDEF, 4, 4, 100, 8, DT_VCENTER
+    END
+END
+
+
+DLGTEMPLATE DLG_WELCOME LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Welcome!", DLG_WELCOME, 44, 40, 172, 84, WS_VISIBLE | NOT WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+    BEGIN
+        LTEXT           "Hello and welcome to HalfWorm!", -1, 4, 72, 164, 8, DT_VCENTER
+        LTEXT           "The objective of this game is simple:", -1, 4, 64, 164, 8, DT_VCENTER
+        LTEXT           "Last Worm Standing Wins!", -1, 4, 56, 164, 8, DT_VCENTER
+        LTEXT           "Eat apples to gain special abilities which will help", -1, 4, 44, 164, 8, DT_VCENTER
+        LTEXT           "you in your quest for Worm. But beware! Some", -1,  4, 36, 164, 8, DT_VCENTER
+        LTEXT           "apples will have the opposite effect, and may", -1, 4, 28, 164, 8, DT_VCENTER
+        LTEXT           "make you an easier target!", -1, 4, 20, 164, 8
+        DEFPUSHBUTTON   "Enjoy!", DID_OK, 64, 4, 40, 12
+    END
+END
+
+
+
+DLGTEMPLATE DLG_SFXVOLUME LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Volume", DLG_SFXVOLUME, 64, 60, 92, 42, WS_VISIBLE | NOT
+            WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+    BEGIN
+        DEFPUSHBUTTON   "~Ok", DID_OK, 4, 4, 40, 12
+        PUSHBUTTON      "~Cancel", DID_CANCEL, 48, 4, 40, 12
+        RTEXT           "Volume", -1, 4, 24, 28, 12, DT_BOTTOM
+        SPINBUTTON      SPBN_VOLUME, 36, 24, 48, 12, SPBS_NUMERICONLY | SPBS_MASTER | WS_GROUP
+    END
+END
+
+

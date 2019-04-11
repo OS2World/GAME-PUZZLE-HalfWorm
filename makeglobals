@@ -1,0 +1,60 @@
+BACKUP_FILES = *.c *.h *.rc *.ico makefile makeglobals *.def *.text *.wis *.cmd
+
+RESOURCE_FILES = ..\resources\*
+
+LLIBS=mmpm2.lib
+
+OBJS = $(BASENAME).obj \
+   ClientWindow.obj \
+   GameThread.obj \
+   FrameSubProc.obj \
+   StatusbarWindow.obj \
+   graphlib.obj \
+   SoundEngine.obj \
+   configuration.obj \
+   PMX.obj
+
+$(BASENAME).obj: ..\$(@B).c \
+   ..\resources.h \
+   ..\ClientWindow.h \
+   ..\FrameSubProc.h \
+   ..\StatusbarWindow.h
+
+ClientWindow.obj: ..\$(@B).c ..\$(@B).h \
+   ..\resources.h
+
+GameThread.obj: ..\$(@B).c ..\$(@B).h \
+   ..\ClientWindow.h \
+   ..\graphlib.h \
+   ..\AppleTypes.h \
+   ..\StatusbarWindow.h \
+   ..\FrameSubProc.h \
+   ..\resources.h \
+   ..\SoundEngine.h
+
+FrameSubProc.obj: ..\$(@B).c ..\$(@B).h \
+   ..\StatusbarWindow.h
+
+StatusbarWindow.obj: ..\$(@B).c ..\$(@B).h \
+   ..\AppleTypes.h \
+   ..\resources.h
+
+
+graphlib.obj: ..\$(@B).c ..\$(@B).h
+
+SoundEngine.obj: ..\$(@B).c ..\$(@B).h
+
+configuration.obbj: ..\$(@B).c ..\$(@B).h \
+   ..\resources.h
+
+PMX.obbj: ..\$(@B).c ..\$(@B).h
+
+
+$(BASENAME).res: ..\$(@B).rc ..\resources.h $(RESOURCE_FILES)
+
+
+successful_build:
+   %cd ..
+   detach pkzip /add=update /directories /recurse /silent last_successful_build $(BACKUP_FILES)
+   detach pkzip /add=update /directories /recurse /silent d:\Backup\Development\$(BASENAME)\$(DATE) $(BACKUP_FILES)
+

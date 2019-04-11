@@ -1,0 +1,168 @@
+
+   TABLE OF CONTENTS
+   ===========================================================================
+   1. INTRODUCTION
+   2. LICENSE
+   3. BUGS
+   4. DEBUGGING
+   5. SUPPORT
+   6. TODO/FUTURE PLANS
+   7. CONTACT
+
+
+   1. INTRODUCTION
+   ===========================================================================
+   HalfWorm contains no "neat tricks" to speak of, so it won't help
+   experienced developers much, but it could serve as a starting point for
+   beginners. It uses DIVE, DART and is multithreaded.
+
+
+   2. LICENSE (Treadstone Closed Source License)
+   ===========================================================================
+   The copies of the HalfWorm files which reside on your storage media is your
+   own personal property with all rights and responsibilities that comes with
+   software you might have written yourself.
+
+   THERE'S NO "YOU MUST SHARE" PARAGRAPH INVOLVED! YOU MAY SELL, MODIFY, TAKE
+   FULL CREDIT FOR THE SOURCES AND/OR THE COMPILED BINARY!
+
+
+   3. BUGS
+   ===========================================================================
+   Please note that I'm working on a complete rewrite of HalfWorm in MGL. The
+   bugs listed here will probably not be fixed until the new version has
+   been released.
+
+   There's a bug which will cause the game thread to get stuck in an enless
+   loop. It happens in one of the following functions:
+      * is_worm_body_within_explosion()
+      * check_tail_explosion()
+   (I don't remember which).
+   Probably very easy to fix if I'd take the time to investigate.
+
+   Also, there's a bug which will cause the the application to trap with
+   SYS3175 if you fire a shot just when the worm is about to wrap around the
+   edges of the game board. This is extremly easy to fix.
+
+   A few other bugs have been reported, but I haven't been able to reproduce
+   them.
+
+   It's a small and very simple game engine - locating bugs, and fixing them,
+   should be a trivial task if one just takes the time to do so.
+
+
+   4. DEBUGGING
+   ===========================================================================
+   Using the standard VAC++ debugger won't work since I'm using the high
+   resolution timer. Instead, you can compile and run the debug version which
+   has two special features:
+      - Outputs stdout to a Debug Terminal
+      - Starts a Watch Dog
+
+   You'll need the debug terminal to launch the debug version of the
+   application. You can get the debug terminal at:
+
+      http://w1.246.telia.com/~u24602843/development/index.html
+
+   The Watch Dog is very simple: It's a thread which keeps waiting for a heart
+   beat event semaphore to be posted. It waits for one second before timing
+   out. If the heart beat times out, it will beep, print a global variable to
+   stdout (the logger) and then terminate. The global variable is set in the
+   main game thread, and the heart beat is posted at the end of each game
+   thread turn.
+
+
+   5. SUPPORT
+   ===========================================================================
+   If you have questions about the inner working of HalfWorm, don't hestitate
+   to ask. I'll reply as time permits.
+
+
+   6. TODO/FUTURE PLANS
+   ===========================================================================
+   GEE, THAT WORM SURE IS THIN
+   ---------------------------
+   The Good News:
+   Worms are exactly 1 (one) pixel wide, which simplyfies alot of conditional
+   statements.
+
+   The Bad News:
+   Consequently, worms are way too small on screen if you run the game at a
+   high resolution. But the worst part is that there's a slight chance that a
+   bullet and/or worm will pass through another worm's body if it intersects a
+   worm where it increased/decreased x and y at the same time.
+
+   The Ultimate Solution:
+   Simply making worms thicker will eliminate both problems. Circe/Circle
+   intersections are fast as heck, and one can keep painting to a minimum by
+   precalculating a difference maps for painting moving circles. This is how
+   the MGL version will work.
+
+
+   EXPLOSIONS, LIFE AND EVERYTHING
+   -------------------------------
+   The Good News:
+   I decided that the explosions should be the only "lethal" game component in
+   HalfWorm. When a worm crashes onto an object, it's not the crashing which
+   sets the "dead" state, in fact it's the explosion which results from the
+   crash which "kills" the worm.
+
+   The Bad News:
+   Currently, the explosion checks aren't very accurate. When an explosion is
+   created, it checks if any objects are within reach of it and destroys
+   anything it touches. After that initial check has been done, the other game
+   components are responsible for checking if they "bump into" explosions.
+   You may experience that the worms sometimes seem to "pass through"
+   explosions with the current design.
+
+   How To Fry A Worm, Safely:
+   A better solution would be to keep track of which items have changed their
+   position each turn (and a counter so the game doesn't have to iterate
+   through all objects). In the explosion management code, loop though the
+   objects which have their "posision changed" flag set and see if they are
+   within reach of any active explosions. It'll be much slower, but I suspect
+   that there's enough CPU time left over for those checks, and it will
+   provide "fail safe" explosions.
+
+
+   LET THERE BE SOUND! AND THERE WAS SILENCE...
+   --------------------------------------------
+   The Good News:
+   There's a soundengine in HalfWorm (albeit a crappy one).
+
+   The Bad News:
+   I couldn't find any good sounds for HalfWorm. I pulled a few free samples
+   off the WWW, but they weren't very good. I could send them to anyone who
+   wants them, though. But if you want good (and plenty of sounds) you'll have
+   to find your own samples, I'm afraid. If someone can put together a good
+   collection of sounds for HalfWorm I'd be glad to hear about it.
+
+   Adding Your Favorite Sounds:
+   I have implemented support for a few sound effects. Implementing more
+   sounds is simple. Simply make sure it's loaded into the samples buffer in
+   the loadSamples thread (and destroyed in releaseSamples). Then call
+   playSample(<pointer to sample>, thisTime) whenever you want the sound to be
+   played and you're all set.
+
+   Oh, before I forget:
+   For the "release" version: Sound effects should reside under a directory
+   called "sounds" which should be located in the same directory as the
+   executable.
+   For the "debug" version: The sound effects directory is hardcoded to
+   c:\sound\halfworm. (Made things easier for me. Don't ask.)
+
+
+   The Future Of HalfWorm
+   ----------------------
+   I'm trying to learn and understand MGL so I can write a full screen version
+   of HalfWorm. Also, I'm wokring on joystick support.
+   The sound engine needs to be completely rewritten -- it was a quick hack,
+   and I hadn't fully understod DART when I started writing it.
+
+
+   7. CONTACT
+   ===========================================================================
+   You can reach me through the following networks:
+          FidoNet: 2:205/323.0
+   Internet email: os2@telia.com
+
