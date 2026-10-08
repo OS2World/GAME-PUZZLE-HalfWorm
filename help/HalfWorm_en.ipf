@@ -33,7 +33,7 @@ More information&colon.
 :li.The board wraps around&colon. a worm that leaves one edge comes back in on the opposite edge.
 :li.Eat apples to grow longer and to get special abilities. Some apples help you, others make you an easier target. See Apples and power-ups.
 :li.A worm dies when it hits a worm (itself or the other one) or is hit by a missile. The last worm alive wins the round; if both die together the game is a draw. The status bar shows the result of the previous game.
-:li.Quit Game (Ctrl+Q) ends the current round and starts a new one. Pause Game is Ctrl+P.
+:li.Pause Game (Ctrl+P) freezes the game until you choose it again. Quit Game (Ctrl+Q) abandons the current round and returns to the title screen; the round is not counted.
 :eul.
 
 :h1 res=2102.Controls
@@ -118,7 +118,7 @@ Apples appear from time to time on the board. What an apple does is a surprise, 
 :dt.Pause Game (Ctrl+P)
 :dd.Stops the game until you choose it again.
 :dt.Quit Game (Ctrl+Q)
-:dd.Ends the current round and starts a new one.
+:dd.Abandons the current round and returns to the title screen. Only available during a game.
 :dt.Exit (Ctrl+X, F3)
 :dd.Closes HalfWorm. The settings are saved if Save settings on exit is on.
 :edl.

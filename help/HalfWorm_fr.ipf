@@ -33,7 +33,7 @@ Plus d'informations&colon.
 :li.Le plateau est sans bords&colon. un ver qui sort par un cote rentre par le cote oppose.
 :li.Mangez des pommes pour grandir et obtenir des capacites speciales. Certaines pommes vous aident, d'autres font de vous une cible plus facile. Voir Pommes et bonus.
 :li.Un ver meurt s'il heurte un ver (lui-meme ou l'autre) ou s'il est touche par un missile. Le dernier ver en vie gagne la manche; si les deux meurent ensemble, c'est un match nul. La barre d'etat indique le resultat de la partie precedente.
-:li.Quitter Jeu (Ctrl+Q) termine la manche en cours et en commence une nouvelle. Pause Jeu est Ctrl+P.
+:li.Pause Jeu (Ctrl+P) arrete le jeu jusqu'a ce que vous le choisissiez de nouveau. Quitter Jeu (Ctrl+Q) abandonne la manche en cours et revient a l'ecran titre; la manche n'est pas comptee.
 :eul.
 
 :h1 res=2102.Commandes
@@ -118,7 +118,7 @@ De temps en temps, des pommes apparaissent sur le plateau. L'effet d'une pomme e
 :dt.Pause Jeu (Ctrl+P)
 :dd.Arrete le jeu jusqu'a ce que vous le choisissiez de nouveau.
 :dt.Quitter Jeu (Ctrl+Q)
-:dd.Termine la manche en cours et en commence une nouvelle.
+:dd.Abandonne la manche en cours et revient a l'ecran titre. Disponible seulement pendant une partie.
 :dt.Quitter (Ctrl+X, F3)
 :dd.Ferme HalfWorm. Les parametres sont sauvegardes si Sauver a la fermeture est active.
 :edl.

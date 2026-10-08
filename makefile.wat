@@ -27,7 +27,7 @@ OBJS = bin\HalfWorm.obj &
 TARGET = bin\HalfWorm.exe
 HLPS   = bin\help\HalfWorm_en.hlp bin\help\HalfWorm_es.hlp bin\help\HalfWorm_nl.hlp bin\help\HalfWorm_de.hlp bin\help\HalfWorm_fr.hlp bin\help\HalfWorm_it.hlp
 
-all : $(TARGET) $(HLPS)
+all : $(TARGET) $(HLPS) sounds
 
 $(TARGET) : $(OBJS) bin\HalfWorm.res
 	$(LINK) system os2v2 pm &
@@ -96,6 +96,11 @@ bin\help\HalfWorm_it.hlp : help\HalfWorm_it.ipf bin\help
 	@echo Compiling help\HalfWorm_it.ipf
 	@$(WIPFC) -o $@ help\HalfWorm_it.ipf
 
+sounds : .SYMBOLIC
+	@if not exist bin\sounds mkdir bin\sounds
+	@copy sounds\*.wav bin\sounds >nul
+
 clean : .SYMBOLIC
 	$(RM) bin\*.obj bin\*.res bin\HalfWorm.exe bin\HalfWorm.map
 	@if exist bin\help\*.hlp del bin\help\*.hlp >nul
+	@if exist bin\sounds\*.wav del bin\sounds\*.wav >nul

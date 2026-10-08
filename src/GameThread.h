@@ -17,6 +17,7 @@ typedef struct _GAMETHREADPARAMS
 #define GTHRDMSG_ENABLE_SOUNDFX          WM_USER+7
 #define GTHRDMSG_SOUNDVOL_DLG            WM_USER+8
 #define GTHRDMSG_SET_SFX_VOLUME          WM_USER+9
+#define GTHRDMSG_QUIT_GAME               WM_USER+10
 
 
 #ifdef DEBUG
@@ -28,5 +29,11 @@ typedef struct _GAMETHREADPARAMS
 #define GTHRDMSG_BULLETS_PER_SHOT        WM_USER+1005
 #define GTHRDMSG_BULLETS_BOUNCE          WM_USER+1006
 #endif
+
+/* Set by the client window: non zero while the game must be paused (window lost the focus and
+   Background Run is off).  The game thread stops the game clock while it is set. */
+#define GAMEPAUSE_FOCUS  0x01      /* window has no focus and Background Run is off */
+#define GAMEPAUSE_USER   0x02      /* Game - Pause Game */
+extern volatile ULONG ulGamePause;
 
 

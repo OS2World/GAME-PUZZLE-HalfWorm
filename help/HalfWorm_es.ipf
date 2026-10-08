@@ -33,7 +33,7 @@ Mas informacion&colon.
 :li.El tablero es continuo&colon. un gusano que sale por un borde vuelve a entrar por el borde opuesto.
 :li.Coma manzanas para crecer y obtener habilidades especiales. Algunas manzanas ayudan y otras le hacen un blanco mas facil. Vea Manzanas y mejoras.
 :li.Un gusano muere si choca con un gusano (el mismo o el otro) o si le alcanza un misil. Gana la ronda el ultimo gusano vivo; si mueren a la vez es un empate. La barra de estado muestra el resultado de la partida anterior.
-:li.Salir Juego (Ctrl+Q) termina la ronda actual y empieza otra. Pausar Juego es Ctrl+P.
+:li.Pausar Juego (Ctrl+P) detiene el juego hasta que se elija otra vez. Salir Juego (Ctrl+Q) abandona la ronda actual y vuelve a la pantalla de presentacion; la ronda no cuenta.
 :eul.
 
 :h1 res=2102.Controles
@@ -118,7 +118,7 @@ De vez en cuando aparecen manzanas en el tablero. El efecto de cada una es una s
 :dt.Pausar Juego (Ctrl+P)
 :dd.Detiene el juego hasta que se elija otra vez.
 :dt.Salir Juego (Ctrl+Q)
-:dd.Termina la ronda actual y empieza otra.
+:dd.Abandona la ronda actual y vuelve a la pantalla de presentacion. Solo disponible durante una partida.
 :dt.Salir (Ctrl+X, F3)
 :dd.Cierra HalfWorm. Las opciones se guardan si Guardar al salir esta activado.
 :edl.

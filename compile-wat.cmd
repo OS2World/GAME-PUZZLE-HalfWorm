@@ -31,6 +31,7 @@ echo OS2TK=%OS2TK% | tee -a %LOGFILE%
 rem Ensure bin directory exists
 if not exist bin md bin
 if not exist bin\help md bin\help
+if not exist bin\sounds md bin\sounds
 
 echo. | tee -a %LOGFILE%
 echo Running wmake... | tee -a %LOGFILE%

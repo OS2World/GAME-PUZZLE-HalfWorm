@@ -23,6 +23,8 @@ Each player controls a worm:
   - Rotate clockwise
   - Fire weapon
 
+The worm always moves forward. Play a round until only one worm is left.
+
 Eat apples scattered on the board to gain special powers. Some apples
 give advantages (speed boost, better weapons); others have negative
 effects. Watch out!
@@ -33,15 +35,21 @@ the other worm, its own body, or a wall segment.
 
 Controls
 --------
-Default key assignment is done on first run. You will be prompted to
-press keys for each action. Keys can be reassigned via Options > Keys.
+Default game keys (can be changed with Options > Keys):
+
+                            Player 1     Player 2
+  Rotate counterclockwise   A            Left arrow
+  Rotate clockwise          D            Right arrow
+  Fire                      W            Up arrow
 
 Keyboard shortcuts:
   Ctrl+N / F2    New Game
-  Ctrl+Q         Quit current game (restart)
+  Ctrl+P         Pause / resume the game
+  Ctrl+Q         Quit the current game (back to the title screen)
   Ctrl+X / F3    Exit application
-  Ctrl+D         Toggle double-size window
-  Ctrl+B         Toggle background run
+  Ctrl+D         Toggle double window (4x4 pixel elements)
+  Ctrl+B         Toggle background run (keep running without the focus;
+                 when off the game pauses while the window is not active)
   Ctrl+F         Toggle frame controls (title bar / menu)
   F1             Help
 
@@ -51,6 +59,13 @@ Online help is available in English, Spanish, Dutch, German, French and
 Italian. Use the Help menu (Help index, General help, Using help) or press
 F1 on a menu item or in a dialog. The help follows the language chosen in
 Options > Language; if a help file is missing the English one is used.
+
+
+Sound
+-----
+The sound effects are the WAV files in the sounds folder (mono, 16-bit,
+22050 Hz); keep it next to HalfWorm.exe. You can replace them with your own
+files of the same names and format. They are synthesized by tools\gen_sounds.py.
 
 
 Requirements
@@ -65,6 +80,7 @@ File List
 ---------
 HalfWorm.exe    Main executable
 HalfWorm.ini    Settings file (created on first run)
+sounds\*.wav     Sound effects (keep the sounds folder next to HalfWorm.exe)
 help\HalfWorm_en.hlp, _es, _nl, _de, _fr, _it - online help (keep the help folder
                 next to HalfWorm.exe)
 doc\Readme.txt  This file

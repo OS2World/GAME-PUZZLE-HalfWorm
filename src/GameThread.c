@@ -352,7 +352,8 @@ enum PlayGameRet
 {
    Worm1Died    = 0x00000001,
    Worm2Died    = 0x00000002,
-   TerminateApp = 0x00000004
+   TerminateApp = 0x00000004,
+   QuitGame     = 0x00000008           /* Game - Quit Game: round abandoned, no winner */
 };
 
 /*
@@ -846,6 +847,10 @@ void _Optlink GameThread(void *param)
                /* ToDo: Don't disable sound options unless sound is available */
                EnableMenuItems(hwndMenu, IDM_SET_BOARDSIZE, IDM_SET_SOUNDVOL, FALSE);
 
+               /* Pause Game and Quit Game are only available while a game is running */
+               WinEnableMenuItem(hwndMenu, IDM_GAME_PAUSE, TRUE);
+               WinEnableMenuItem(hwndMenu, IDM_GAME_QUIT, TRUE);
+
                /*
                 * New statusbar window message: SBMSG_FADEOUT?
                 */
@@ -856,6 +861,29 @@ void _Optlink GameThread(void *param)
                WinSendMsg(hwndStatus[1], SBMSG_SETAUTODIM, MPFROMLONG(TRUE), MPVOID);
 
                playRet = PlayGame(hab, pb, hwnd, hTimer, pulTimer, hevPaint);
+
+               WinEnableMenuItem(hwndMenu, IDM_GAME_PAUSE, FALSE);
+               WinEnableMenuItem(hwndMenu, IDM_GAME_QUIT, FALSE);
+               WinCheckMenuItem(hwndMenu, IDM_GAME_PAUSE, FALSE);
+               ulGamePause &= ~GAMEPAUSE_USER;
+
+               if(playRet & QuitGame)
+               {
+                  /* abandoned round: not counted as won, lost or drawn */
+                  playRet = 0;
+                  fIntroRunning = FALSE;
+                  WinPostQueueMsg(hmq, GTHRDMSG_INIT_INTRO, MPVOID, MPVOID);
+                  if(fMixerAvailable)
+                  {
+                     EnableMenuItems(hwndMenu, IDM_SET_BOARDSIZE, IDM_SET_SOUNDVOL, TRUE);
+                  }
+                  else
+                  {
+                     EnableMenuItems(hwndMenu, IDM_SET_BOARDSIZE, IDM_SET_DOUBLE, TRUE);
+                  }
+                  break;
+               }
+
                cPlayedGames++;
                if(playRet & Worm1Died)
                {
@@ -1454,6 +1482,8 @@ static void _Optlink app_session_match_status(ULONG acWins[], HWND hwndStatus[])
 
 
 
+volatile ULONG ulGamePause = 0;
+
 static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer, PULONG pHRT, HEV hevPaint)
 {
    PBULLET bullets = NULL;
@@ -1465,6 +1495,7 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
    ULONG cActiveBullets = 0;
    ULONG cActiveExplosions = 0;
    ULONG cActiveTrons = 0;
+   ULONG tmPaused = 0;                   /* total time spent paused; subtracted from the game clock */
 
    ULONG flReturn = 0;
 
@@ -1597,10 +1628,11 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
    ptl.y = sizlGameBitmap.cy/2+sizlGameBitmap.cx/8;
    create_tron(trons, &ptl, 2, &cActiveTrons, *pHRT);
 
+   tmPaused = 0;
 
    while(!fGameOver)
    {
-      ULONG thisTime = *pHRT;
+      ULONG thisTime;
       int iBullet;
       int iWorm;
       int iExplosion;
@@ -1611,6 +1643,41 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
       int cProcessed;
       BOOL fBlit = FALSE;
       QMSG qmsg;
+
+      /*
+       * Paused (window lost the focus, Background Run off): stand still and keep the game
+       * clock from advancing, so that no timers (movement, apples, shots) expire meanwhile.
+       */
+      if(ulGamePause)
+      {
+         ULONG tmPauseStart = *pHRT;
+         while(ulGamePause && !fGameOver)
+         {
+            if(WinPeekMsg(hab, &qmsg, NULLHANDLE, 0UL, 0UL, PM_REMOVE))
+            {
+               if(qmsg.msg == GTHRDMSG_TERMINATE)
+               {
+                  flReturn |= TerminateApp;
+                  fGameOver = TRUE;
+               }
+               else if(qmsg.msg == GTHRDMSG_QUIT_GAME)
+               {
+                  flReturn |= QuitGame;
+                  fGameOver = TRUE;
+               }
+               else if(qmsg.msg == WM_PAINT)
+               {
+                  memset(pb->afLineMask, 0xff, pb->cy);
+                  DosPostEventSem(hevPaint);
+               }
+            }
+            DosSleep(25);
+         }
+         tmPaused += *pHRT - tmPauseStart;
+         if(fGameOver)
+            continue;
+      }
+      thisTime = *pHRT - tmPaused;
 
       #ifdef DEBUG
       GameThreadState = 0x10000000;
@@ -1676,6 +1743,11 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
 
             case GTHRDMSG_TERMINATE:
                flReturn |= TerminateApp;
+               fGameOver = TRUE;
+               continue;
+
+            case GTHRDMSG_QUIT_GAME:
+               flReturn |= QuitGame;
                fGameOver = TRUE;
                continue;
 
@@ -3297,20 +3369,21 @@ void _Inline draw_explosion(PPIXELBUFFER pb, PPOINTL center, PRLECIRCLE prc, BYT
          memset(&pb->afLineMask[p.y], 0xff, prc->lines);
          for(; iLine < prc->lines; iLine++)
          {
-            ULONG cb = prc->line[iLine].cb;
-            LONG xMax;
+            /* signed arithmetic: a line completely outside the board used to wrap cb around
+               to a huge unsigned value and memset() ran off the end of the pixel buffer */
+            LONG cb = prc->line[iLine].cb;
             p.x = center->x + prc->line[iLine].xLeft;
             if(p.x < 0)
             {
                cb += p.x;
                p.x = 0;
             }
-            xMax = p.x + cb;
-            if(xMax > limits->maxPos.x)
+            if(p.x + cb - 1 > limits->maxPos.x)
             {
-               cb -= (xMax - limits->maxPos.x);
+               cb = limits->maxPos.x - p.x + 1;
             }
-            memset(getPixelP(pb, &p), color, cb);
+            if(cb > 0)
+               memset(getPixelP(pb, &p), color, cb);
             p.y++;
          }
          break;
@@ -3325,20 +3398,19 @@ void _Inline draw_explosion(PPIXELBUFFER pb, PPOINTL center, PRLECIRCLE prc, BYT
          {
             if(p.y <= limits->maxPos.y)
             {
-               ULONG cb = prc->line[iLine].cb;
-               LONG xMax;
+               LONG cb = prc->line[iLine].cb;
                p.x = center->x + prc->line[iLine].xLeft;
                if(p.x < 0)
                {
                   cb += p.x;
                   p.x = 0;
                }
-               xMax = p.x + cb;
-               if(xMax > limits->maxPos.x)
+               if(p.x + cb - 1 > limits->maxPos.x)
                {
-                  cb -= (xMax - limits->maxPos.x);
+                  cb = limits->maxPos.x - p.x + 1;
                }
-               memset(getPixelP(pb, &p), color, cb);
+               if(cb > 0)
+                  memset(getPixelP(pb, &p), color, cb);
                pb->afLineMask[p.y] = 0xff;
                p.y++;
                continue;

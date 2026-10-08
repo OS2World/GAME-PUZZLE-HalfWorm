@@ -8,11 +8,11 @@ Version 0.9 (2026)
 - Standard menu structure: Game / Options / Help
 - Keyboard shortcuts: Ctrl+N/P/Q/X/B/F/D, F2/F3
 - Language support: English, Spanish, Dutch, German, French, Italian
-- Background Run option (Ctrl+B): pause game when window loses focus
+- Background Run option (Ctrl+B): when off, the game pauses while the window is not active
 - Frame Controls option (Ctrl+F): hide/show title bar, menu, system menu
 - Save Settings on Exit option
 - About dialog with version and license information
-- Default window size: 1024x768 (centered on screen)
+- Default window: centered on screen, two thirds of the screen size
 - BLDLEVEL string for bldlevel.exe identification
 - License: BSD 3-Clause
 - Save settings on exit is enabled by default
@@ -20,6 +20,13 @@ Version 0.9 (2026)
   GpiQueryRealColors returns 256 four byte entries (1024 bytes); it corrupted the window data and
   could trap the game when it was closed (and then leave MMPM/2 hung until the next reboot)
 - Temporary debug logging removed
+- Pause Game (Ctrl+P) and Quit Game (Ctrl+Q) work: they are enabled while a game is running; Pause freezes the
+  game clock (checked in the menu), Quit abandons the round (not counted) and returns to the title screen
+- Background Run now works: with it off, the game pauses (its clock stops) while the window does not
+  have the focus and resumes when it gets it back; with it on, the game keeps running
+- Fixed a crash while playing: an explosion clipped at the left/right board edge could compute a negative
+  length that became a huge unsigned value, so the fill ran past the end of the pixel buffer
+- Sound effects included: 12 WAV files (mono, 16-bit, 22050 Hz) in sounds\, synthesized by tools\gen_sounds.py and copied to bin\sounds
 - Game elements (worms, missiles, apples, explosions) are drawn twice as big: "Double window" now
   shows each game pixel as 4x4 screen pixels (was 2x2) and the default board is halved to match;
   a board size saved by an earlier version that no longer fits the screen is replaced by the default

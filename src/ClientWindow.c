@@ -500,10 +500,12 @@ static MRESULT EXPENTRY WindowProcedure(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM
                break;
 
             case IDM_GAME_PAUSE:
+               ulGamePause ^= GAMEPAUSE_USER;
+               WinCheckMenuItem(wd->hwndMenu, IDM_GAME_PAUSE, (ulGamePause & GAMEPAUSE_USER) != 0);
                break;
 
             case IDM_GAME_QUIT:
-               WinPostQueueMsg(wd->hmqGameThread, GTHRDMSG_START_GAME, MPVOID, MPVOID);
+               WinPostQueueMsg(wd->hmqGameThread, GTHRDMSG_QUIT_GAME, MPVOID, MPVOID);
                break;
 
             case IDM_GAME_EXIT:
@@ -718,10 +720,12 @@ static MRESULT EXPENTRY WindowProcedure(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM
             if(!SHORT1FROMMP(mp2)) {
                if(!wd->bBackgrndRun) {
                   wd->bFocusPaused = TRUE;
+                  ulGamePause |= GAMEPAUSE_FOCUS;        /* pause the game while another window has the focus */
                }
             }
             else {
                wd->bFocusPaused = FALSE;
+               ulGamePause &= ~GAMEPAUSE_FOCUS;
             }
          }
          fHandled = FALSE;

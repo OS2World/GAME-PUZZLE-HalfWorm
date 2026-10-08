@@ -33,7 +33,7 @@ Meer informatie&colon.
 :li.Het bord is rondlopend&colon. een worm die aan een rand verdwijnt komt aan de overkant weer binnen.
 :li.Eet appels om langer te worden en speciale eigenschappen te krijgen. Sommige appels helpen je, andere maken je een makkelijker doelwit. Zie Appels en power-ups.
 :li.Een worm sterft als hij tegen een worm (zichzelf of de ander) botst of door een raket wordt geraakt. De laatste levende worm wint de ronde; sterven beide wormen tegelijk, dan is het gelijkspel. De statusbalk toont de uitslag van het vorige spel.
-:li.Stop Spel (Ctrl+Q) beeindigt de huidige ronde en begint een nieuwe. Pauze Spel is Ctrl+P.
+:li.Pauze Spel (Ctrl+P) zet het spel stil tot je het opnieuw kiest. Stop Spel (Ctrl+Q) breekt de huidige ronde af en keert terug naar het titelscherm; de ronde telt niet mee.
 :eul.
 
 :h1 res=2102.Besturing
@@ -118,7 +118,7 @@ Af en toe verschijnen er appels op het bord. Wat een appel doet is een verrassin
 :dt.Pauze Spel (Ctrl+P)
 :dd.Stopt het spel tot je het opnieuw kiest.
 :dt.Stop Spel (Ctrl+Q)
-:dd.Beeindigt de huidige ronde en begint een nieuwe.
+:dd.Breekt de huidige ronde af en keert terug naar het titelscherm. Alleen beschikbaar tijdens een spel.
 :dt.Afsluiten (Ctrl+X, F3)
 :dd.Sluit HalfWorm. De instellingen worden opgeslagen als Sla op bij sluiten aan staat.
 :edl.

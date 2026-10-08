@@ -33,7 +33,7 @@ Weitere Informationen&colon.
 :li.Das Brett ist ringfoermig&colon. Ein Wurm, der an einem Rand verschwindet, kommt am gegenueberliegenden Rand wieder herein.
 :li.Fressen Sie Aepfel, um zu wachsen und besondere Faehigkeiten zu bekommen. Manche Aepfel helfen Ihnen, andere machen Sie zum leichteren Ziel. Siehe Aepfel und Extras.
 :li.Ein Wurm stirbt, wenn er gegen einen Wurm (sich selbst oder den anderen) stoesst oder von einer Rakete getroffen wird. Der letzte lebende Wurm gewinnt die Runde; sterben beide gleichzeitig, ist es unentschieden. Die Statusleiste zeigt das Ergebnis des vorigen Spiels.
-:li.Spiel Beenden (Strg+Q) beendet die aktuelle Runde und startet eine neue. Spiel Pause ist Strg+P.
+:li.Spiel Pause (Strg+P) haelt das Spiel an, bis Sie es erneut waehlen. Spiel Beenden (Strg+Q) bricht die aktuelle Runde ab und kehrt zum Titelbild zurueck; die Runde wird nicht gezaehlt.
 :eul.
 
 :h1 res=2102.Steuerung
@@ -118,7 +118,7 @@ Von Zeit zu Zeit erscheinen Aepfel auf dem Brett. Was ein Apfel bewirkt, ist ein
 :dt.Spiel Pause (Strg+P)
 :dd.Haelt das Spiel an, bis Sie es erneut waehlen.
 :dt.Spiel Beenden (Strg+Q)
-:dd.Beendet die aktuelle Runde und startet eine neue.
+:dd.Bricht die aktuelle Runde ab und kehrt zum Titelbild zurueck. Nur waehrend eines Spiels verfuegbar.
 :dt.Beenden (Strg+X, F3)
 :dd.Schliesst HalfWorm. Die Einstellungen werden gespeichert, wenn Einstellungen speichern aktiviert ist.
 :edl.

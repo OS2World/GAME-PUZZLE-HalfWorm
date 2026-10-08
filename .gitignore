@@ -7,3 +7,4 @@ bin/*.dll
 *.cfg
 HalfWorm.ini
 bin/help/*.hlp
+bin/sounds/*.wav

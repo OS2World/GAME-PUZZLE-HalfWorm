@@ -33,7 +33,7 @@ Altre informazioni&colon.
 :li.Il campo e senza bordi&colon. un verme che esce da un lato rientra dal lato opposto.
 :li.Mangiate mele per crescere e ottenere abilita speciali. Alcune mele aiutano, altre vi rendono un bersaglio piu facile. Vedere Mele e potenziamenti.
 :li.Un verme muore se urta un verme (se stesso o l'altro) o viene colpito da un missile. L'ultimo verme vivo vince la partita; se muoiono insieme e un pareggio. La barra di stato mostra il risultato della partita precedente.
-:li.Finire Gioco (Ctrl+Q) termina la partita in corso e ne inizia una nuova. Pausa Gioco e Ctrl+P.
+:li.Pausa Gioco (Ctrl+P) ferma il gioco finche non lo si sceglie di nuovo. Finire Gioco (Ctrl+Q) abbandona la partita in corso e torna alla schermata iniziale; la partita non viene contata.
 :eul.
 
 :h1 res=2102.Comandi
@@ -118,7 +118,7 @@ Ogni tanto sul campo compaiono delle mele. L'effetto di ogni mela e una sorpresa
 :dt.Pausa Gioco (Ctrl+P)
 :dd.Ferma il gioco finche non lo si sceglie di nuovo.
 :dt.Finire Gioco (Ctrl+Q)
-:dd.Termina la partita in corso e ne inizia una nuova.
+:dd.Abbandona la partita in corso e torna alla schermata iniziale. Disponibile solo durante una partita.
 :dt.Esci (Ctrl+X, F3)
 :dd.Chiude HalfWorm. Le impostazioni vengono salvate se Salva all'uscita e attivo.
 :edl.
