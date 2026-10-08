@@ -1,6 +1,7 @@
 BSD 3-Clause License
 
-Copyright (c) 2019, OS2World
+Copyright (c) 1997, Jan M. Danielsson
+Copyright (c) 2026, OS2World
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

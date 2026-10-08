@@ -1,0 +1,302 @@
+#include <os2.h>
+#include "resources.h"
+
+POINTER WIN_HALFWORM src\HalfWorm.ico
+
+STRINGTABLE LOADONCALL
+{
+   IDS_APPTITLE                          "HalfWorm 0.9"
+
+   IDS_LEFTWELCOME                       "Welcome to HalfWorm!"
+   IDS_RIGHTWELCOME                      "Written by Jan M. Danielsson"
+
+   IDS_WONPREVGAME                       "Won previous game"
+   IDS_LOSTPREVGAME                      "Lost previous game"
+   IDS_DRAWPREVGAME                      "Last game ended in a draw"
+
+   IDS_NO_MODIFICATION_APPLE             "Eeeeewww! It was infested with worms..."
+
+   IDS_APPLE_LOWER_SPEED                 "Uh, I've been slowed down.."
+   IDS_APPLE_RAISE_SPEED                 "I can move faster!"
+   IDS_APPLE_RESET                       "I have been reborn!"
+   IDS_APPLE_AUTOFIRE                    "Yikes! It's stuck!"
+   IDS_APPLE_LOWER_FIRERATE              "My fire rate has been lowered. Boo-hoo!"
+   IDS_APPLE_RAISE_FIRERATE              "Higher fire rate! Bang-bang-bang! Yeah!"
+   IDS_APPLE_SLOWER_BULLETS              "I seem to have slower missiles"
+   IDS_APPLE_FASTER_BULLETS              "My missiles will travel faster!"
+   IDS_APPLE_PACIFIST                    "Weapons will never win any wars!"
+   IDS_APPLE_SUMMON_FRENZY               "Ieeeek! It's Frenzy! (unimplemented)"
+   IDS_APPLE_SUMMON_WRIGGLY              "Oh, no! Not that pesty drunk thing again?! (unimplemented)"
+   IDS_APPLE_MORE_BULLETS                "Hey! An upgraded launcher! MOAHAHAHA!!"
+   IDS_APPLE_LESS_BULLETS                "Boohoo! I lost my launcher!!"
+   IDS_APPLE_WRIGGLE                     "What the heck was in THAT apple?!"
+   IDS_APPLE_FATAL_ATTRACTION            "Awwwww.. Love .. so .. fatal."
+   IDS_APPLE_HOMING_BULLETS              "Neat! Homing -- I won't even have to aim!"
+   IDS_APPLE_BIGGER_EXPLOSIONS           "BOOOM! Moahahaha!"
+   IDS_APPLE_SMALLER_EXPLOSIONS          "Less powerful explosions! Bwuaaaah!.."
+   IDS_APPLE_BOUNCE_MORE                 "Rubber shells, huh? What will they think of next?"
+   IDS_APPLE_BOUNCE_LESS                 "I'll remove this rubber shell.."
+   IDS_APPLE_WARPINGBULLETS              "Warping weapons -- seems dangerous"
+   IDS_APPLE_DRUNKEN_MISSILES            "Drunken missiles!?"
+
+   IDS_WORM_DIED                         "Wormsy go bye-bye"
+
+   IDS_NO_MORE_PACIFIST                  "Pacifist-schmaschicist - I want to shoot something!"
+
+   IDS_PLAYER1                           "Player 1"
+   IDS_PLAYER2                           "Player 2"
+   IDS_ANTICLOCKROT                      "Counterclockwise rotation"
+   IDS_CLOCKROT                          "Clockwise rotation"
+   IDS_FIRE                              "Firing weapon"
+
+   IDS_PROFILE_NAME                      "HalfWorm.ini"
+   IDS_PRFAPP                            "HalfWorm"
+   IDS_PRFKEY_PLAYER_FORMAT              "Player%d"
+   IDS_PRFKEY_CONTROL_COUNTERCLOCKROT    ".rotate.counterclockwise"
+   IDS_PRFKEY_CONTROL_CLOCKROT           ".rotate.clockwise"
+   IDS_PRFKEY_CONTROL_FIRE               ".fire"
+   IDS_PRFKEY_FIRST_RUN                  "Initialized"
+   IDS_PRKKEY_SOUNDFX                    "SoundFX.active"
+   IDS_PRFKEY_SOUNDFX_VOLUME             "SoundFX.volume"
+   IDS_PRFKEY_BOARD_WIDTH                "Board.width"
+   IDS_PRFKEY_BOARD_HEIGHT               "Board.height"
+   IDS_PRFKEY_DOUBLE_SIZE                "Board.zoomed"
+   IDS_PRFKEY_FRAMEPOS                   "Frame.Position"
+
+   IDS_PRFKEY_LANG                       "Language"
+   IDS_PRFKEY_SAVEONEXIT                 "SaveOnExit"
+   IDS_PRFKEY_BACKGRND                   "BackgroundRun"
+}
+
+
+MENU WIN_HALFWORM
+{
+   SUBMENU "~Game", IDM_GAME, MIS_TEXT, MIA_DISABLED
+   {
+      MENUITEM "~New Game\tCtrl+N",    IDM_GAME_START,  MIS_TEXT, MIA_DISABLED
+      MENUITEM "~Pause Game\tCtrl+P",  IDM_GAME_PAUSE,  MIS_TEXT, MIA_DISABLED
+      MENUITEM "~Quit Game\tCtrl+Q",   IDM_GAME_QUIT,   MIS_TEXT, MIA_DISABLED
+      MENUITEM SEPARATOR
+      MENUITEM "E~xit\tCtrl+X",        IDM_GAME_EXIT,   MIS_TEXT
+   }
+   SUBMENU "~Options", IDM_SETTINGS
+   {
+      MENUITEM "~Board Size..",          IDM_SET_BOARDSIZE, MIS_TEXT, MIA_DISABLED
+      MENUITEM "~Keys..",                IDM_SET_KEYS,      MIS_TEXT, MIA_DISABLED
+      MENUITEM "~Double window\tCtrl+D", IDM_SET_DOUBLE,    MIS_TEXT, MIA_DISABLED
+      SUBMENU "~Sound effects", IDM_SET_SOUND, MIS_TEXT, MIA_DISABLED
+      {
+         MENUITEM "~Enabled",          IDM_SET_SOUNDFX,  MIS_TEXT, MIA_DISABLED
+         MENUITEM "~Volume..",         IDM_SET_SOUNDVOL, MIS_TEXT, MIA_DISABLED
+      }
+      MENUITEM SEPARATOR
+      SUBMENU "~Language", IDM_SUB_LANG
+      {
+         MENUITEM "English",    IDM_LANG_EN, MIS_TEXT, MIA_CHECKED
+         MENUITEM "Espanol",    IDM_LANG_ES, MIS_TEXT
+         MENUITEM "Nederlands", IDM_LANG_NL, MIS_TEXT
+         MENUITEM "Deutsch",    IDM_LANG_DE, MIS_TEXT
+         MENUITEM "Francais",   IDM_LANG_FR, MIS_TEXT
+         MENUITEM "Italiano",   IDM_LANG_IT, MIS_TEXT
+      }
+      MENUITEM SEPARATOR
+      MENUITEM "~Background Run\tCtrl+B", IDM_OPT_BACKGRND,   MIS_TEXT
+      MENUITEM "~Frame Controls\tCtrl+F", IDM_OPT_FRAME,      MIS_TEXT
+      MENUITEM SEPARATOR
+      MENUITEM "~Save settings on exit",  IDM_OPT_SAVEONEXIT, MIS_TEXT
+   }
+   SUBMENU "~Help", IDM_SUB_HELP
+   {
+      MENUITEM "Help ~index",   IDM_HELPINDEX,       MIS_TEXT
+      MENUITEM "~General help", IDM_HELPEXTENDED,    MIS_TEXT
+      MENUITEM "~Using help",   IDM_HELPHELPFORHELP, MIS_TEXT
+      MENUITEM SEPARATOR
+      MENUITEM "~About...",     IDM_ABOUT,           MIS_TEXT
+   }
+}
+
+ACCELTABLE WIN_HALFWORM
+{
+   "n", IDM_GAME_START,    CONTROL
+   "N", IDM_GAME_START,    CONTROL
+   "p", IDM_GAME_PAUSE,    CONTROL
+   "P", IDM_GAME_PAUSE,    CONTROL
+   "q", IDM_GAME_QUIT,     CONTROL
+   "Q", IDM_GAME_QUIT,     CONTROL
+   "x", IDM_GAME_EXIT,     CONTROL
+   "X", IDM_GAME_EXIT,     CONTROL
+   "b", IDM_OPT_BACKGRND,  CONTROL
+   "B", IDM_OPT_BACKGRND,  CONTROL
+   "f", IDM_OPT_FRAME,     CONTROL
+   "F", IDM_OPT_FRAME,     CONTROL
+   "d", IDM_SET_DOUBLE,    CONTROL
+   "D", IDM_SET_DOUBLE,    CONTROL
+   VK_F2, IDM_GAME_START,  VIRTUALKEY
+   VK_F3, IDM_GAME_EXIT,   VIRTUALKEY
+}
+
+
+DLGTEMPLATE DLG_BOARD_SIZE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Game board size", DLG_BOARD_SIZE, 92, 48, 96, 88, WS_VISIBLE | NOT WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    BEGIN
+        GROUPBOX        "Size", -1, 4, 52, 88, 32
+        RTEXT           "Width", -1, 8, 68, 24, 8, DT_BOTTOM
+        SPINBUTTON      SPBN_WIDTH, 40, 68, 44, 12, SPBS_NUMERICONLY | SPBS_MASTER | SPBS_JUSTRIGHT | WS_GROUP
+        RTEXT           "Height", -1, 8, 56, 24, 8, DT_BOTTOM
+        SPINBUTTON      SPBN_HEIGHT, 40, 56, 44, 12, SPBS_NUMERICONLY | SPBS_MASTER | SPBS_JUSTRIGHT | WS_GROUP
+        PUSHBUTTON      "Maximize for desktop", BN_MAX_SIZE, 4, 36, 88, 14
+        PUSHBUTTON      "Maximize for double size", BN_MAX_SIZE_DOUBLE, 4, 20, 88, 14
+        PUSHBUTTON      "~Ok", DID_OK, 4, 4, 40, 12
+        PUSHBUTTON      "~Cancel", DID_CANCEL, 44, 4, 40, 12
+    END
+END
+
+
+DLGTEMPLATE DLG_CONFIG_KEYS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Key selection", DLG_CONFIG_KEYS, 52, 72, 108, 40, WS_VISIBLE | NOT WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+    BEGIN
+        CTEXT           "Player 1", ST_PLAYER, 4, 28, 100, 8, DT_VCENTER
+        CTEXT           "Hit key for", -1, 4, 16, 100, 8, DT_VCENTER
+        CTEXT           "", ST_KEYDEF, 4, 4, 100, 8, DT_VCENTER
+    END
+END
+
+
+DLGTEMPLATE DLG_WELCOME LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Welcome!", DLG_WELCOME, 44, 40, 172, 84, WS_VISIBLE | NOT WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+    BEGIN
+        LTEXT           "Hello and welcome to HalfWorm!", -1, 4, 72, 164, 8, DT_VCENTER
+        LTEXT           "The objective of this game is simple:", -1, 4, 64, 164, 8, DT_VCENTER
+        LTEXT           "Last Worm Standing Wins!", -1, 4, 56, 164, 8, DT_VCENTER
+        LTEXT           "Eat apples to gain special abilities which will help", -1, 4, 44, 164, 8, DT_VCENTER
+        LTEXT           "you in your quest for Worm. But beware! Some", -1,  4, 36, 164, 8, DT_VCENTER
+        LTEXT           "apples will have the opposite effect, and may", -1, 4, 28, 164, 8, DT_VCENTER
+        LTEXT           "make you an easier target!", -1, 4, 20, 164, 8
+        DEFPUSHBUTTON   "Enjoy!", DID_OK, 64, 4, 40, 12
+    END
+END
+
+
+DLGTEMPLATE DLG_SFXVOLUME LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Volume", DLG_SFXVOLUME, 64, 60, 92, 42, WS_VISIBLE | NOT WS_SAVEBITS, FCF_TITLEBAR
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+    BEGIN
+        DEFPUSHBUTTON   "~Ok", DID_OK, 4, 4, 40, 12
+        PUSHBUTTON      "~Cancel", DID_CANCEL, 48, 4, 40, 12
+        RTEXT           "Volume", -1, 4, 24, 28, 12, DT_BOTTOM
+        SPINBUTTON      SPBN_VOLUME, 36, 24, 48, 12, SPBS_NUMERICONLY | SPBS_MASTER | WS_GROUP
+    END
+END
+
+
+DLGTEMPLATE IDD_KEY_MAPPING LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Key Mapping", IDD_KEY_MAPPING, 40, 32, 192, 76, WS_VISIBLE | WS_SAVEBITS, FCF_TITLEBAR | FCF_DLGBORDER
+            PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    BEGIN
+        CTEXT "Player 1",      -1,            64, 62,  56,  8
+        CTEXT "Player 2",      -1,           124, 62,  56,  8
+
+        RTEXT "CCW:",          -1,             4, 46,  56, 12, DT_VCENTER
+        PUSHBUTTON "",          BN_KM_P1_CCW,  64, 46,  56, 12
+        PUSHBUTTON "",          BN_KM_P2_CCW, 124, 46,  56, 12
+
+        RTEXT "CW:",           -1,             4, 32,  56, 12, DT_VCENTER
+        PUSHBUTTON "",          BN_KM_P1_CW,   64, 32,  56, 12
+        PUSHBUTTON "",          BN_KM_P2_CW,  124, 32,  56, 12
+
+        RTEXT "Fire:",         -1,             4, 18,  56, 12, DT_VCENTER
+        PUSHBUTTON "",          BN_KM_P1_FIRE, 64, 18,  56, 12
+        PUSHBUTTON "",          BN_KM_P2_FIRE,124, 18,  56, 12
+
+        PUSHBUTTON "~Defaults", BN_KM_DEFAULTS, 4,  4,  50, 12
+        DEFPUSHBUTTON "~OK",    DID_OK,        100,  4,  40, 12
+        PUSHBUTTON "~Cancel",   DID_CANCEL,    144,  4,  44, 12
+    END
+END
+
+
+DLGTEMPLATE IDD_ABOUT LOADONCALL MOVEABLE
+BEGIN
+    DIALOG "About HalfWorm", IDD_ABOUT, 32, 24, 240, 110, WS_VISIBLE | WS_SAVEBITS, FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        CTEXT "HalfWorm for OS/2",           -1, 10, 90, 220, 8
+        CTEXT "Version 0.9",                 -1, 10, 78, 220, 8
+        CTEXT "OpenWatcom Release",          -1, 10, 66, 220, 8
+        CTEXT "(c) 1997, Jan M. Danielsson", -1, 10, 54, 220, 8
+        CTEXT "(c) 2026, OS2World",          -1, 10, 42, 220, 8
+        CTEXT "BSD 3-Clause License",        -1, 10, 30, 220, 8
+        DEFPUSHBUTTON "Close", DID_OK,       98,  8, 44, 14, WS_GROUP
+    END
+END
+
+
+HELPTABLE MAIN_HELP_TABLE
+{
+   HELPITEM WIN_HALFWORM,    SUBTABLE_MAIN,   PANEL_INTRO
+   HELPITEM IDD_ABOUT,       SUBTABLE_ABOUT,  PANEL_COPYRIGHT
+   HELPITEM DLG_BOARD_SIZE,  SUBTABLE_BOARD,  PANEL_BOARDDLG
+   HELPITEM IDD_KEY_MAPPING, SUBTABLE_KEYS,   PANEL_KEYSDLG
+   HELPITEM DLG_SFXVOLUME,   SUBTABLE_VOLUME, PANEL_VOLDLG
+}
+
+HELPSUBTABLE SUBTABLE_MAIN
+{
+   HELPSUBITEM IDM_GAME,            PANEL_GAMEMENU
+   HELPSUBITEM IDM_GAME_START,      PANEL_GAMEMENU
+   HELPSUBITEM IDM_GAME_PAUSE,      PANEL_GAMEMENU
+   HELPSUBITEM IDM_GAME_QUIT,       PANEL_GAMEMENU
+   HELPSUBITEM IDM_GAME_EXIT,       PANEL_GAMEMENU
+   HELPSUBITEM IDM_SETTINGS,        PANEL_OPTMENU
+   HELPSUBITEM IDM_SET_BOARDSIZE,   PANEL_BOARDDLG
+   HELPSUBITEM IDM_SET_KEYS,        PANEL_KEYSDLG
+   HELPSUBITEM IDM_SET_DOUBLE,      PANEL_OPTMENU
+   HELPSUBITEM IDM_SET_SOUND,       PANEL_OPTMENU
+   HELPSUBITEM IDM_SET_SOUNDFX,     PANEL_OPTMENU
+   HELPSUBITEM IDM_SET_SOUNDVOL,    PANEL_VOLDLG
+   HELPSUBITEM IDM_SUB_LANG,        PANEL_OPTMENU
+   HELPSUBITEM IDM_LANG_EN,         PANEL_OPTMENU
+   HELPSUBITEM IDM_LANG_ES,         PANEL_OPTMENU
+   HELPSUBITEM IDM_LANG_NL,         PANEL_OPTMENU
+   HELPSUBITEM IDM_LANG_DE,         PANEL_OPTMENU
+   HELPSUBITEM IDM_LANG_FR,         PANEL_OPTMENU
+   HELPSUBITEM IDM_LANG_IT,         PANEL_OPTMENU
+   HELPSUBITEM IDM_OPT_BACKGRND,    PANEL_OPTMENU
+   HELPSUBITEM IDM_OPT_FRAME,       PANEL_OPTMENU
+   HELPSUBITEM IDM_OPT_SAVEONEXIT,  PANEL_OPTMENU
+   HELPSUBITEM IDM_SUB_HELP,        PANEL_HELPMENU
+   HELPSUBITEM IDM_HELPINDEX,       PANEL_HELPMENU
+   HELPSUBITEM IDM_HELPEXTENDED,    PANEL_HELPMENU
+   HELPSUBITEM IDM_HELPHELPFORHELP, PANEL_HELPMENU
+   HELPSUBITEM IDM_ABOUT,           PANEL_COPYRIGHT
+}
+
+HELPSUBTABLE SUBTABLE_ABOUT
+{
+   HELPSUBITEM DID_OK, PANEL_COPYRIGHT
+}
+
+HELPSUBTABLE SUBTABLE_BOARD
+{
+   HELPSUBITEM DID_OK,     PANEL_BOARDDLG
+   HELPSUBITEM DID_CANCEL, PANEL_BOARDDLG
+}
+
+HELPSUBTABLE SUBTABLE_KEYS
+{
+   HELPSUBITEM DID_OK,     PANEL_KEYSDLG
+   HELPSUBITEM DID_CANCEL, PANEL_KEYSDLG
+}
+
+HELPSUBTABLE SUBTABLE_VOLUME
+{
+   HELPSUBITEM DID_OK,     PANEL_VOLDLG
+   HELPSUBITEM DID_CANCEL, PANEL_VOLDLG
+}

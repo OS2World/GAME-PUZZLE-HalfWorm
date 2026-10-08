@@ -1,0 +1,41 @@
+HalfWorm for OS/2 - Changelog
+==============================
+
+Version 0.9 (2026)
+-------------------
+- OpenWatcom C port by OS2World community
+- Build system: wmake + wcc386 + wlink + wrc (replaces IBM C/Set++ make)
+- Standard menu structure: Game / Options / Help
+- Keyboard shortcuts: Ctrl+N/P/Q/X/B/F/D, F2/F3
+- Language support: English, Spanish, Dutch, German, French, Italian
+- Background Run option (Ctrl+B): pause game when window loses focus
+- Frame Controls option (Ctrl+F): hide/show title bar, menu, system menu
+- Save Settings on Exit option
+- About dialog with version and license information
+- Default window size: 1024x768 (centered on screen)
+- BLDLEVEL string for bldlevel.exe identification
+- License: BSD 3-Clause
+- Save settings on exit is enabled by default
+- Fixed a heap overflow: the DIVE destination palette was read into a 256 byte buffer although
+  GpiQueryRealColors returns 256 four byte entries (1024 bytes); it corrupted the window data and
+  could trap the game when it was closed (and then leave MMPM/2 hung until the next reboot)
+- Temporary debug logging removed
+- Game elements (worms, missiles, apples, explosions) are drawn twice as big: "Double window" now
+  shows each game pixel as 4x4 screen pixels (was 2x2) and the default board is halved to match;
+  a board size saved by an earlier version that no longer fits the screen is replaced by the default
+- The default window is two thirds of the screen size (the board can be changed in Options - Board Size)
+- Online help (IPF) in English, Spanish, Dutch, German, French and Italian: help\HalfWorm_xx.hlp
+  next to the exe, with Help index / General help / Using help in the Help menu, F1 context help
+  for menu items and dialogs, and the help language following the menu language
+
+
+Version 0.8.1 (1997)
+---------------------
+- Original release by Jan M. Danielsson
+- IBM C/Set++ build
+- Two-player worm action game with DIVE rendering and MMPM/2 sound
+- Apple power-up system with 20+ effect types
+- Configurable board size and key bindings
+- Sound effects with volume control
+- Double-size window mode
+- INI file settings persistence
