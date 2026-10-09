@@ -5,7 +5,7 @@ on a game board, eating apples for special powers. The last worm standing wins.
 
 Version 0.9 - OpenWatcom port by OS2World community.
 
-![HalfWorm ScreenShot](/doc/HalfWorm.png)
+![HalfWorm ScreenShot](/doc/Halfworm.png)
 
 ## FEATURES
 
