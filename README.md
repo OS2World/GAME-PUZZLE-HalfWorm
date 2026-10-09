@@ -5,6 +5,8 @@ on a game board, eating apples for special powers. The last worm standing wins.
 
 Version 0.9 - OpenWatcom port by OS2World community.
 
+![HalfWorm ScreenShot](/doc/HalfWorm.png)
+
 ## FEATURES
 
 - Two-player worm action game with DIVE graphics and MMPM/2 sound effects
