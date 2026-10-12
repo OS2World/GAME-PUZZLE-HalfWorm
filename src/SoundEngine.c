@@ -3,6 +3,7 @@
 #define INCL_DOSSEMAPHORES
 #define INCL_DOSPROCESS
 #define INCL_DOSERRORS
+#define INCL_DOSMODULEMGR
 #define INCL_OS2MM
 
 #include <os2.h>
@@ -17,6 +18,60 @@
 #include "SoundEngine.h"
 
 #include "debug.h"
+
+
+/*
+ * MMPM/2 is loaded at run time.  When MMIO.DLL cannot start (its initialization fails on
+ * some systems) a program that imports it ends before main() without a word; this way the
+ * game starts and runs without sound instead.
+ */
+static HMMIO  (APIENTRY *pfnMmioOpen)(PSZ, PMMIOINFO, ULONG);
+static USHORT (APIENTRY *pfnMmioClose)(HMMIO, USHORT);
+static ULONG  (APIENTRY *pfnMmioGetHeader)(HMMIO, PVOID, LONG, PLONG, ULONG, ULONG);
+static LONG   (APIENTRY *pfnMmioRead)(HMMIO, PSZ, LONG);
+static ULONG  (APIENTRY *pfnMciSendCommand)(USHORT, USHORT, ULONG, PVOID, USHORT);
+static BOOL   bMM = FALSE;
+
+#define mmioOpen       pfnMmioOpen
+#define mmioClose      pfnMmioClose
+#define mmioGetHeader  pfnMmioGetHeader
+#define mmioRead       pfnMmioRead
+#define mciSendCommand pfnMciSendCommand
+
+static PFN MMSym(HMODULE hmod, const char *name)
+{
+   PFN  pfn = NULL;
+   char up[40];
+   int  i;
+
+   if(DosQueryProcAddr(hmod, 0, (PSZ)name, &pfn) == NO_ERROR)
+      return pfn;
+   for(i = 0; name[i] && i < 38; i++)
+      up[i] = (name[i] >= 'a' && name[i] <= 'z') ? (char)(name[i] - 32) : name[i];
+   up[i] = 0;
+   if(DosQueryProcAddr(hmod, 0, (PSZ)up, &pfn) == NO_ERROR)
+      return pfn;
+   return NULL;
+}
+
+static BOOL LoadMMPM(void)
+{
+   HMODULE hmodMMIO = NULLHANDLE, hmodMDM = NULLHANDLE;
+   char    err[CCHMAXPATH];
+
+   if(bMM)
+      return TRUE;
+   if(DosLoadModule((PSZ)err, sizeof(err), (PSZ)"MMIO", &hmodMMIO) != NO_ERROR ||
+      DosLoadModule((PSZ)err, sizeof(err), (PSZ)"MDM",  &hmodMDM)  != NO_ERROR)
+      return FALSE;
+   *(PFN *)&pfnMmioOpen       = MMSym(hmodMMIO, "mmioOpen");
+   *(PFN *)&pfnMmioClose      = MMSym(hmodMMIO, "mmioClose");
+   *(PFN *)&pfnMmioGetHeader  = MMSym(hmodMMIO, "mmioGetHeader");
+   *(PFN *)&pfnMmioRead       = MMSym(hmodMMIO, "mmioRead");
+   *(PFN *)&pfnMciSendCommand = MMSym(hmodMDM,  "mciSendCommand");
+   bMM = pfnMmioOpen && pfnMmioClose && pfnMmioGetHeader && pfnMmioRead && pfnMciSendCommand;
+   return bMM;
+}
 
 
 /* Maximum channels */
@@ -125,6 +180,8 @@ BOOL _Optlink isMixerAvailable(void)
    ULONG ulWaitRc = 0;
    BOOL fAvailable = FALSE;
 
+   if(!LoadMMPM())
+      return FALSE;
 
    pA = (MIXERCHKARGS *)malloc(sizeof(MIXERCHKARGS));
    if(!pA)
@@ -158,6 +215,8 @@ BOOL _Optlink startMixer(void)
    APIRET rc = NO_ERROR;
    BOOL fSuccess = FALSE;
 
+   if(!bMM)
+      return FALSE;
    rc = DosCreateEventSem(NULL, &hevMix, 0UL, FALSE);
    if(rc == NO_ERROR)
    {
@@ -196,6 +255,8 @@ BOOL _Optlink stopMixer(void)
    APIRET rc = NO_ERROR;
    MCI_GENERIC_PARMS GenericParms = { 0 };
 
+   if(!bMM)
+      return FALSE;
    mciSendCommand(usDeviceID, MCI_STOP, MCI_WAIT, &GenericParms, 0);
 
    /*
@@ -250,6 +311,8 @@ BOOL _Optlink mixerSetVolume(ULONG ulLevel)
 {
    MCI_SET_PARMS      msp;
 
+   if(!bMM)
+      return FALSE;
    msp.ulLevel = ulLevel;
    msp.ulAudio = MCI_SET_AUDIO_ALL;
    mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT | MCI_SET_AUDIO | MCI_SET_VOLUME, &msp, 0);
@@ -264,6 +327,8 @@ PSAMPLE _Optlink loadSample(PSZ pszFilename)
    BOOL fSuccess = FALSE;
    PSAMPLE sample = NULL;
 
+   if(!bMM)
+      return NULL;
    memset(&mmioInfo, '\0', sizeof(MMIOINFO));
    mmioInfo.fccIOProc = mmioFOURCC('W', 'A', 'V', 'E');
    hmmio = mmioOpen(pszFilename, &mmioInfo, MMIO_READ | MMIO_DENYNONE );
@@ -475,6 +540,9 @@ static BOOL _Optlink dartInitMixer(void)
    ULONG rc = MCIERR_SUCCESS;
    BOOL fSuccess = FALSE;
 
+   if(!bMM)
+      return FALSE;
+
    /*
     * Open amp mixer device
     * ToDo: Sharing!
@@ -542,6 +610,9 @@ static BOOL _Optlink dartTermMixer(void)
    BOOL fSuccess = FALSE;
    ULONG rc = MCIERR_SUCCESS;
    MCI_GENERIC_PARMS GenericParms = { 0 };
+
+   if(!bMM)
+      return FALSE;
 
    if((rc = mciSendCommand(usDeviceID, MCI_BUFFER, MCI_WAIT | MCI_DEALLOCATE_MEMORY, &BufferParms, 0)) == MCIERR_SUCCESS)
    {

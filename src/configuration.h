@@ -1,3 +1,6 @@
+#ifndef __CONFIGURATION_H__
+#define __CONFIGURATION_H__
+
 #include "pmx.h"
 
 /*
@@ -14,4 +17,6 @@ BOOL _Optlink loadPlayerKeys(HAB hab, PAPPPRF prf, int iPlayer, PPLAYERKEYS keys
 BOOL _Optlink savePlayerKeys(HAB hab, PAPPPRF prf, int iPlayer, PPLAYERKEYS keys);
 void _Optlink setDefaultPlayerKeys(int iPlayer, PPLAYERKEYS keys);
 
-
+
+
+#endif

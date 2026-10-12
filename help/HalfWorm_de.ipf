@@ -39,7 +39,7 @@ Weitere Informationen&colon.
 :h1 res=2102.Steuerung
 :i1.Steuerung
 :p.
-Jeder Spieler benutzt drei Tasten. Die Standardtasten stehen unten; aendern Sie sie mit Optionen - Tasten. Die Tasten werden direkt von der Tastatur gelesen, es koennen also mehrere gleichzeitig gedrueckt werden.
+Jeder Spieler verwendet drei Tasten. Die Standardtasten stehen unten; aendern Sie sie, oder richten Sie einen Joystick ein, unter Optionen - Tastenzuordnung. Die Tasten werden direkt von der Tastatur gelesen, daher koennen mehrere Tasten gleichzeitig gehalten werden.
 :p.
 :dl break=all.
 :dt.Spieler 1 - A
@@ -128,8 +128,8 @@ Von Zeit zu Zeit erscheinen Aepfel auf dem Brett. Was ein Apfel bewirkt, ist ein
 :dl break=all.
 :dt.Brettgroesse...
 :dd.Legt Breite und Hoehe des Bretts in Pixeln fest. Maximieren fuer Desktop und Maximieren fuer doppelte Groesse passen das Brett an den Bildschirm an.
-:dt.Tasten...
-:dd.Oeffnet den Dialog zur Tastenbelegung beider Spieler.
+:dt.Tastenzuordnung...
+:dd.Oeffnet das Dialogfeld Tastenzuordnung mit einer Seite Tastatur (die drei Tasten jedes Spielers) und einer Seite Joystick.
 :dt.Doppeltes Fenster (Strg+D)
 :dd.Zeigt das Spiel in doppelter Groesse.
 :dt.Soundeffekte
@@ -160,7 +160,7 @@ Von Zeit zu Zeit erscheinen Aepfel auf dem Brett. Was ein Apfel bewirkt, ist ein
 :h1 res=2107.Copyright
 :i1.Copyright
 :p.
-HalfWorm fuer OS/2, Version 0.9
+HalfWorm fuer OS/2, Version 1.0
 :p.
 Copyright (C) 1997 Jan M. Danielsson. Open-Watcom-Build und Erweiterungen, 2026, OS2World.
 :p.
@@ -176,7 +176,7 @@ Legt die Groesse des Spielbretts in Pixeln fest. Breite und Hoehe sind die beide
 :h1 res=2109.Tastenbelegung
 :i1.Tastenbelegung
 :p.
-Waehlen Sie die drei Tasten jedes Spielers&colon. Drehung gegen den Uhrzeigersinn (CCW), Drehung im Uhrzeigersinn (CW) und Feuer. Klicken Sie auf eine Schaltflaeche und druecken Sie die gewuenschte Taste. Standard stellt die Standardtasten wieder her. OK speichert die Tasten, Abbrechen verwirft die Aenderungen.
+Die Seite Tastatur legt die drei Tasten jedes Spielers fest&colon. Linksdrehung (CCW), Rechtsdrehung (CW) und Feuer. Klicken Sie auf eine Schaltflaeche und druecken Sie die gewuenschte Taste. Die Seite Joystick richtet Joysticks ein&colon. Joystick aktivieren ankreuzen, fuer jeden Spieler Joystick A oder B waehlen, auf ein Feld klicken und eine Joystick-Taste druecken oder den Stick bewegen (Entf loescht) und mit A kalibrieren / B kalibrieren die Mitte eines Sticks festlegen. Tastatur und Joystick arbeiten zusammen. Standard stellt die Standardtasten und Joystick-Einstellungen wieder her. OK speichert die Aenderungen, Abbrechen verwirft sie.
 
 :h1 res=2110.Lautstaerke der Soundeffekte
 :i1.Lautstaerke der Soundeffekte

@@ -1,6 +1,6 @@
 HalfWorm for OS/2
 =================
-Version 0.9
+Version 1.0
 
 
 Overview
@@ -35,12 +35,17 @@ the other worm, its own body, or a wall segment.
 
 Controls
 --------
-Default game keys (can be changed with Options > Keys):
+Default game keys (can be changed with Options > Key Mapping):
 
                             Player 1     Player 2
   Rotate counterclockwise   A            Left arrow
   Rotate clockwise          D            Right arrow
   Fire                      W            Up arrow
+
+Joystick: Options > Key Mapping... has a Joystick page. Tick Enable Joystick, choose Joystick A or B
+for each player and give each action a joystick button or a stick direction (defaults: stick left =
+rotate counterclockwise, stick right = rotate clockwise, button 1 = fire). Calibrate A / B set the
+centre of a stick. The keyboard and the joysticks work together.
 
 Keyboard shortcuts:
   Ctrl+N / F2    New Game

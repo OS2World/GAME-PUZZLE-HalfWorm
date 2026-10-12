@@ -39,7 +39,7 @@ Mas informacion&colon.
 :h1 res=2102.Controles
 :i1.Controles
 :p.
-Cada jugador usa tres teclas. Abajo se muestran las predeterminadas; se cambian con Opciones - Teclas. Las teclas se leen directamente del teclado, asi que se pueden mantener varias a la vez.
+Cada jugador usa tres teclas. Las predeterminadas se muestran abajo; cambialas, o configura un joystick, en Opciones - Asignacion de teclas. Las teclas se leen directamente del teclado, asi que se pueden mantener varias a la vez.
 :p.
 :dl break=all.
 :dt.Jugador 1 - A
@@ -128,8 +128,8 @@ De vez en cuando aparecen manzanas en el tablero. El efecto de cada una es una s
 :dl break=all.
 :dt.Tamano tablero...
 :dd.Fija el ancho y el alto del tablero en pixeles. Maximizar para el escritorio y Maximizar para doble tamano ajustan el tablero a la pantalla.
-:dt.Teclas...
-:dd.Abre el dialogo de asignacion de teclas de los dos jugadores.
+:dt.Asignacion de teclas...
+:dd.Abre el dialogo de asignacion de teclas con una pagina Teclado (las tres teclas de cada jugador) y una pagina Joystick.
 :dt.Doble ventana (Ctrl+D)
 :dd.Muestra el juego al doble de tamano.
 :dt.Efectos de sonido
@@ -160,7 +160,7 @@ De vez en cuando aparecen manzanas en el tablero. El efecto de cada una es una s
 :h1 res=2107.Copyright
 :i1.Copyright
 :p.
-HalfWorm para OS/2, version 0.9
+HalfWorm para OS/2, version 1.0
 :p.
 Copyright (C) 1997 Jan M. Danielsson. Compilacion con Open Watcom y ampliaciones, 2026, OS2World.
 :p.
@@ -176,7 +176,7 @@ Fija el tamano del tablero de juego en pixeles. Ancho y Alto son los dos valores
 :h1 res=2109.Asignacion de teclas
 :i1.Asignacion de teclas
 :p.
-Elija las tres teclas de cada jugador&colon. giro antihorario (CCW), giro horario (CW) y disparo. Pulse un boton y luego la tecla que desea usar. Predeterminadas restaura las teclas estandar. Aceptar guarda las teclas y Cancelar descarta los cambios.
+La pagina Teclado define las tres teclas de cada jugador&colon. giro a la izquierda (CCW), giro a la derecha (CW) y disparo. Haz clic en un boton y pulsa la tecla que quieras usar. La pagina Joystick configura los joysticks&colon. activa Activar joystick, elige Joystick A o B para cada jugador, haz clic en un cuadro y pulsa un boton del joystick o mueve la palanca (Supr borra) y usa Calibrar A / B para fijar el centro de la palanca. El teclado y el joystick funcionan a la vez. Por defecto restaura las teclas y el joystick estandar. Aceptar guarda los cambios y Cancelar los descarta.
 
 :h1 res=2110.Volumen de los efectos
 :i1.Volumen de los efectos

@@ -3,7 +3,7 @@
 A two-player action game for OS/2 Presentation Manager. Two worms compete
 on a game board, eating apples for special powers. The last worm standing wins.
 
-Version 0.9 - OpenWatcom port by OS2World community.
+Version 1.0 - OpenWatcom port by OS2World community.
 
 ![HalfWorm ScreenShot](/doc/Halfworm.png)
 
@@ -13,6 +13,7 @@ Version 0.9 - OpenWatcom port by OS2World community.
 - Apple power-ups (speed, fire rate, missile types, homing, bouncing, and more)
 - Elements drawn at 4x4 screen pixels; the board size can be changed (Options - Board Size)
 - Menus and online help (IPF, F1) in English, Spanish, Dutch, German, French and Italian
+- Key Mapping for keyboard and joystick (A / B, buttons or stick directions, calibration)
 - Pause Game, Background Run, Frame Controls, double window and saved settings
 - 12 sound effects, synthesized by `tools\gen_sounds.py`
 
@@ -25,13 +26,21 @@ it hits a worm or is hit by a missile. The last worm standing wins the round.
 
 ## DEFAULT KEYS
 
-Game keys (change them with Options - Keys):
+Game keys (change them, or set up a joystick, with Options - Key Mapping):
 
 | Action                    | Player 1 | Player 2    |
 |---------------------------|----------|-------------|
 | Rotate counterclockwise   | A        | Left arrow  |
 | Rotate clockwise          | D        | Right arrow |
 | Fire                      | W        | Up arrow    |
+
+Options - Key Mapping... opens a window with two pages:
+
+- **Keyboard** - click a button and press the key for each of the six actions.
+- **Joystick** - tick *Enable Joystick*, choose Joystick A or B for each player, click a box and press a
+  joystick button or move the stick (Delete clears); *Calibrate A* / *Calibrate B* set the centre of a stick.
+
+The keyboard and the joysticks work together. The joystick mapping is saved in the game profile.
 
 Menu shortcuts:
 

@@ -39,7 +39,7 @@ Plus d'informations&colon.
 :h1 res=2102.Commandes
 :i1.Commandes
 :p.
-Chaque joueur utilise trois touches. Les touches par defaut sont indiquees ci-dessous; modifiez-les avec Options - Touches. Les touches sont lues directement sur le clavier, on peut donc en maintenir plusieurs en meme temps.
+Chaque joueur utilise trois touches. Les touches par defaut sont indiquees ci-dessous ; modifiez-les, ou configurez un joystick, avec Options - Affectation des touches. Les touches sont lues directement au clavier, on peut donc en maintenir plusieurs en meme temps.
 :p.
 :dl break=all.
 :dt.Joueur 1 - A
@@ -128,8 +128,8 @@ De temps en temps, des pommes apparaissent sur le plateau. L'effet d'une pomme e
 :dl break=all.
 :dt.Taille plateau...
 :dd.Definit la largeur et la hauteur du plateau en pixels. Maximiser pour le bureau et Maximiser pour double taille ajustent le plateau a l'ecran.
-:dt.Touches...
-:dd.Ouvre la boite de dialogue d'affectation des touches des deux joueurs.
+:dt.Affectation des touches...
+:dd.Ouvre la fenetre d'affectation des touches avec une page Clavier (les trois touches de chaque joueur) et une page Joystick.
 :dt.Double fenetre (Ctrl+D)
 :dd.Affiche le jeu en double taille.
 :dt.Effets sonores
@@ -160,7 +160,7 @@ De temps en temps, des pommes apparaissent sur le plateau. L'effet d'une pomme e
 :h1 res=2107.Copyright
 :i1.Copyright
 :p.
-HalfWorm pour OS/2, version 0.9
+HalfWorm pour OS/2, version 1.0
 :p.
 Copyright (C) 1997 Jan M. Danielsson. Compilation Open Watcom et extensions, 2026, OS2World.
 :p.
@@ -176,7 +176,7 @@ Definit la taille du plateau de jeu en pixels. Largeur et Hauteur sont les deux 
 :h1 res=2109.Affectation des touches
 :i1.Affectation des touches
 :p.
-Choisissez les trois touches de chaque joueur&colon. rotation antihoraire (CCW), rotation horaire (CW) et tir. Cliquez sur un bouton puis appuyez sur la touche voulue. Defaut retablit les touches standard. OK enregistre les touches, Annuler abandonne les modifications.
+La page Clavier definit les trois touches de chaque joueur&colon. rotation a gauche (CCW), rotation a droite (CW) et tir. Cliquez sur un bouton et appuyez sur la touche voulue. La page Joystick configure les joysticks&colon. cochez Activer le joystick, choisissez Joystick A ou B pour chaque joueur, cliquez sur une case et appuyez sur un bouton du joystick ou bougez le manche (Suppr efface) et utilisez Calibrer A / B pour fixer le centre d'un manche. Le clavier et le joystick fonctionnent ensemble. Defaut restaure les touches et le joystick standard. OK enregistre les modifications, Annuler les abandonne.
 
 :h1 res=2110.Volume des effets sonores
 :i1.Volume des effets sonores

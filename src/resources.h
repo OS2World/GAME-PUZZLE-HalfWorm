@@ -175,6 +175,28 @@
 #define BN_KM_P2_CW           0xb005
 #define BN_KM_P2_FIRE         0xb006
 #define BN_KM_DEFAULTS        0xb007
+#define DLG_KM_KBD            0xb100      /* notebook pages of the Key Mapping dialog */
+#define DLG_KM_JOY            0xb101
+#define IDC_KM_NB             0xb110
+#define IDC_KM_KH             0xb120
+#define IDC_KM_KP1            0xb121
+#define IDC_KM_KP2            0xb122
+#define IDC_KM_KCCW           0xb123
+#define IDC_KM_KCW            0xb124
+#define IDC_KM_KFIRE          0xb125
+#define IDC_KM_JEN            0xb130
+#define IDC_KM_JP1            0xb131
+#define IDC_KM_JP2            0xb132
+#define IDC_KM_JP1A           0xb133
+#define IDC_KM_JP1B           0xb134
+#define IDC_KM_JP2A           0xb135
+#define IDC_KM_JP2B           0xb136
+#define IDC_KM_JH1            0xb137
+#define IDC_KM_JH2            0xb138
+#define IDC_KM_JCALA          0xb139
+#define IDC_KM_JCALB          0xb13a
+#define IDC_KM_JLBL           0xb140      /* +0..5 */
+#define IDC_KM_JBOX           0xb150      /* +0..5 */
 
 /* Screen pixels per game pixel when "Double window" is on (was 2; elements are now twice as big) */
 #define ZOOM_FACTOR           4

@@ -22,6 +22,7 @@ OBJS = bin\HalfWorm.obj &
        bin\graphlib.obj &
        bin\SoundEngine.obj &
        bin\configuration.obj &
+       bin\keymap.obj &
        bin\PMX.obj
 
 TARGET = bin\HalfWorm.exe
@@ -33,7 +34,7 @@ $(TARGET) : $(OBJS) bin\HalfWorm.res
 	$(LINK) system os2v2 pm &
 		name $(TARGET) &
 		modfile src\HalfWorm.def &
-		file bin\HalfWorm.obj,bin\ClientWindow.obj,bin\GameThread.obj,bin\FrameSubProc.obj,bin\StatusbarWindow.obj,bin\graphlib.obj,bin\SoundEngine.obj,bin\configuration.obj,bin\PMX.obj &
+		file bin\HalfWorm.obj,bin\ClientWindow.obj,bin\GameThread.obj,bin\FrameSubProc.obj,bin\StatusbarWindow.obj,bin\graphlib.obj,bin\SoundEngine.obj,bin\configuration.obj,bin\keymap.obj,bin\PMX.obj &
 		library $(OS2TK)\lib\mmpm2.lib &
 		option stack=65536 &
 		option map=bin\HalfWorm.map
@@ -41,6 +42,9 @@ $(TARGET) : $(OBJS) bin\HalfWorm.res
 
 bin\HalfWorm.res : src\HalfWorm.rc src\resources.h src\HalfWorm.ico
 	$(RC) -r -i=$(OS2TK)\h -i=src src\HalfWorm.rc -fo=bin\HalfWorm.res
+
+bin\keymap.obj : src\keymap.c src\keymap.h src\joyos2.h src\resources.h src\configuration.h src\pmx.h src\ow_compat.h
+	$(CC) $(CFLAGS) src\keymap.c -fo=$@
 
 bin\HalfWorm.obj : src\HalfWorm.c src\resources.h src\ClientWindow.h src\FrameSubProc.h src\StatusbarWindow.h src\ow_compat.h
 	$(CC) $(CFLAGS) src\HalfWorm.c -fo=$@

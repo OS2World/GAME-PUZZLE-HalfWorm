@@ -39,7 +39,7 @@ Meer informatie&colon.
 :h1 res=2102.Besturing
 :i1.Besturing
 :p.
-Elke speler gebruikt drie toetsen. De standaardtoetsen staan hieronder; wijzig ze met Opties - Toetsen. De toetsen worden rechtstreeks van het toetsenbord gelezen, dus je kunt er meerdere tegelijk ingedrukt houden.
+Elke speler gebruikt drie toetsen. De standaardtoetsen staan hieronder; wijzig ze, of stel een joystick in, met Opties - Toetsen toewijzen. Toetsen worden rechtstreeks van het toetsenbord gelezen, dus meerdere toetsen tegelijk zijn mogelijk.
 :p.
 :dl break=all.
 :dt.Speler 1 - A
@@ -128,8 +128,8 @@ Af en toe verschijnen er appels op het bord. Wat een appel doet is een verrassin
 :dl break=all.
 :dt.Spelbord grootte...
 :dd.Stelt de breedte en hoogte van het bord in pixels in. Maximaliseren voor bureaublad en Maximaliseren voor dubbele grootte passen het bord aan het scherm aan.
-:dt.Toetsen...
-:dd.Opent het dialoogvenster om de toetsen van beide spelers toe te wijzen.
+:dt.Toetsen toewijzen...
+:dd.Opent het dialoogvenster Toetsen toewijzen met een pagina Toetsenbord (de drie toetsen van elke speler) en een pagina Joystick.
 :dt.Dubbel venster (Ctrl+D)
 :dd.Toont het spel op dubbele grootte.
 :dt.Geluidseffecten
@@ -160,7 +160,7 @@ Af en toe verschijnen er appels op het bord. Wat een appel doet is een verrassin
 :h1 res=2107.Copyright
 :i1.Copyright
 :p.
-HalfWorm voor OS/2, versie 0.9
+HalfWorm voor OS/2, versie 1.0
 :p.
 Copyright (C) 1997 Jan M. Danielsson. Open Watcom-build en uitbreidingen, 2026, OS2World.
 :p.
@@ -176,7 +176,7 @@ Stelt de grootte van het speelbord in pixels in. Breedte en Hoogte zijn de twee 
 :h1 res=2109.Toetsen toewijzen
 :i1.Toetsen toewijzen
 :p.
-Kies de drie toetsen van elke speler&colon. linksom draaien (CCW), rechtsom draaien (CW) en vuren. Klik op een knop en druk op de gewenste toets. Standaard herstelt de standaardtoetsen. OK slaat de toetsen op, Annuleren verwerpt de wijzigingen.
+De pagina Toetsenbord bepaalt de drie toetsen van elke speler&colon. linksom draaien (CCW), rechtsom draaien (CW) en vuren. Klik op een knop en druk op de gewenste toets. De pagina Joystick stelt joysticks in&colon. vink Joystick gebruiken aan, kies Joystick A of B voor elke speler, klik op een vak en druk op een joystickknop of beweeg de stick (Delete wist) en gebruik Kalibreer A / B om het midden van een stick in te stellen. Toetsenbord en joystick werken samen. Standaard herstelt de standaardtoetsen en joystickinstellingen. OK bewaart de wijzigingen, Annuleren verwerpt ze.
 
 :h1 res=2110.Volume geluidseffecten
 :i1.Volume geluidseffecten

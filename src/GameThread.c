@@ -37,6 +37,7 @@
 #include "resources.h"
 
 #include "configuration.h"
+#include "keymap.h"
 
 #include "graphlib.h"
 #include "SoundEngine.h"
@@ -1824,6 +1825,7 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
        */
       if(thisTime >= tmNextKeyScan)
       {
+         KmJoyPoll();     /* joystick state for this scan (Options - Key Mapping) */
          for(iWorm = 0; iWorm < MAX_WORMS; iWorm++)
          {
             BOOL fNewDirection = FALSE;
@@ -1838,7 +1840,7 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
 
                /* if(abKeyStates[worm->rotLeftKey] == 0x80) */
                lKeyState = WinGetPhysKeyState(HWND_DESKTOP, worm->rotLeftKey);
-               if(lKeyState & 0x8000)
+               if((lKeyState & 0x8000) || KmJoyDown(iWorm, KM_CCW))
                {
                   worm->deg = worm->virtDeg = sub_deg(worm->deg, 1);
 
@@ -1846,7 +1848,7 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
                }
                /* if(abKeyStates[worm->rotRightKey] == 0x80) */
                lKeyState = WinGetPhysKeyState(HWND_DESKTOP, worm->rotRightKey);
-               if(lKeyState & 0x8000)
+               if((lKeyState & 0x8000) || KmJoyDown(iWorm, KM_CW))
                {
                   worm->deg = worm->virtDeg = add_deg(worm->deg, 1);
 
@@ -1883,7 +1885,7 @@ static ULONG _Optlink PlayGame(HAB hab, PPIXELBUFFER pb, HWND hwnd, HFILE hTimer
             {
                LONG lKeyState;
                lKeyState = WinGetPhysKeyState(HWND_DESKTOP, worm->shootKey);
-               if(lKeyState & 0x8000 || (worm->flags & WORMFLG_AUTOFIRE))
+               if((lKeyState & 0x8000) || KmJoyDown(iWorm, KM_FIRE) || (worm->flags & WORMFLG_AUTOFIRE))
                {
                   worm_shoot(pb, worm, iWorm, bullets, thisTime, &cActiveBullets);
 

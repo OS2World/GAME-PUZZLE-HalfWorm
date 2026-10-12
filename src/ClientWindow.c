@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "configuration.h"
 #include "pmx.h"
+#include "keymap.h"
 
 #include "debug.h"
 
@@ -60,7 +61,7 @@ enum {
 static const char *lang_strings[LANG_COUNT][LS_COUNT] = {
    /* EN */ {
       "~Game", "~New Game\tCtrl+N", "~Pause Game\tCtrl+P", "~Quit Game\tCtrl+Q", "E~xit\tCtrl+X",
-      "~Options", "~Board Size..", "~Keys..", "~Double window\tCtrl+D",
+      "~Options", "~Board Size..", "~Key Mapping..", "~Double window\tCtrl+D",
       "~Sound effects", "~Enabled", "~Volume..",
       "~Language", "~Background Run\tCtrl+B", "~Frame Controls\tCtrl+F",
       "~Save settings on exit", "~Help", "~About...",
@@ -68,7 +69,7 @@ static const char *lang_strings[LANG_COUNT][LS_COUNT] = {
    },
    /* ES */ {
       "~Juego", "~Nuevo Juego\tCtrl+N", "~Pausar Juego\tCtrl+P", "~Salir Juego\tCtrl+Q", "~Salir\tCtrl+X",
-      "~Opciones", "Tama~no tablero..", "~Teclas..", "~Doble ventana\tCtrl+D",
+      "~Opciones", "Tama~no tablero..", "Asignacion de ~teclas..", "~Doble ventana\tCtrl+D",
       "Efectos de ~sonido", "~Activado", "~Volumen..",
       "~Idioma", "Fondo ~Activo\tCtrl+B", "Controles ~Marco\tCtrl+F",
       "~Guardar al salir", "A~yuda", "~Acerca de...",
@@ -76,7 +77,7 @@ static const char *lang_strings[LANG_COUNT][LS_COUNT] = {
    },
    /* NL */ {
       "~Spel", "~Nieuw Spel\tCtrl+N", "~Pauze Spel\tCtrl+P", "~Stop Spel\tCtrl+Q", "~Afsluiten\tCtrl+X",
-      "~Opties", "Spelbord ~grootte..", "~Toetsen..", "~Dubbel venster\tCtrl+D",
+      "~Opties", "Spelbord ~grootte..", "To~etsen toewijzen..", "~Dubbel venster\tCtrl+D",
       "~Geluidseffecten", "~Ingeschakeld", "~Volume..",
       "~Taal", "Achtergrond ~Actief\tCtrl+B", "~Frame Controls\tCtrl+F",
       "~Sla op bij sluiten", "~Help", "~Over...",
@@ -84,7 +85,7 @@ static const char *lang_strings[LANG_COUNT][LS_COUNT] = {
    },
    /* DE */ {
       "~Spiel", "~Neues Spiel\tCtrl+N", "Spiel ~Pause\tCtrl+P", "Spiel ~Beenden\tCtrl+Q", "~Beenden\tCtrl+X",
-      "~Optionen", "Brett~groesse..", "~Tasten..", "~Doppeltes Fenster\tCtrl+D",
+      "~Optionen", "Brett~groesse..", "~Tastenzuordnung..", "~Doppeltes Fenster\tCtrl+D",
       "~Soundeffekte", "~Aktiviert", "~Lautstaerke..",
       "~Sprache", "~Hintergrundlauf\tCtrl+B", "Rahmen-~Steuerung\tCtrl+F",
       "~Einstellungen speichern", "~Hilfe", "~Ueber...",
@@ -92,7 +93,7 @@ static const char *lang_strings[LANG_COUNT][LS_COUNT] = {
    },
    /* FR */ {
       "~Jeu", "~Nouveau Jeu\tCtrl+N", "~Pause Jeu\tCtrl+P", "~Quitter Jeu\tCtrl+Q", "~Quitter\tCtrl+X",
-      "~Options", "Taille ~plateau..", "~Touches..", "~Double fenetre\tCtrl+D",
+      "~Options", "Taille ~plateau..", "Affectation des ~touches..", "~Double fenetre\tCtrl+D",
       "Effets ~sonores", "~Active", "~Volume..",
       "~Langue", "Arriere-plan ~Actif\tCtrl+B", "Controles ~Cadre\tCtrl+F",
       "~Sauver a la fermeture", "~Aide", "~A propos...",
@@ -100,7 +101,7 @@ static const char *lang_strings[LANG_COUNT][LS_COUNT] = {
    },
    /* IT */ {
       "~Gioco", "~Nuovo Gioco\tCtrl+N", "~Pausa Gioco\tCtrl+P", "~Finire Gioco\tCtrl+Q", "~Esci\tCtrl+X",
-      "~Opzioni", "Dimensione ~campo..", "~Tasti..", "Finestra ~doppia\tCtrl+D",
+      "~Opzioni", "Dimensione ~campo..", "Assegnazione ~tasti..", "Finestra ~doppia\tCtrl+D",
       "Effetti ~sonori", "~Attivato", "~Volume..",
       "~Lingua", "Sfondo ~Attivo\tCtrl+B", "Controlli ~Cornice\tCtrl+F",
       "Salva all ~uscita", "~Aiuto", "~Info...",
@@ -190,11 +191,6 @@ static MRESULT EXPENTRY WelcomeDialogProc(HWND hwnd, ULONG msg, MPARAM mp1, MPAR
 static MRESULT EXPENTRY KeysDialogProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2);
 static void _Optlink processKeysDialogCharMsg(HWND hwnd, MPARAM mp1, PSETKEYSDATA setKeyData);
 static BOOL _Optlink saveControls(HWND hwnd, PPLAYERKEYS playerKeys);
-static MRESULT EXPENTRY KeyMappingDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2);
-static void _Optlink scancodeToName(BYTE sc, char *buf, int cBuf);
-static void _Optlink kmUpdateButton(HWND hwnd, USHORT btnId, BYTE sc);
-static BYTE kmGetKey(PKEYMAPDATA wd, int iSlot);
-static void kmSetKey(PKEYMAPDATA wd, int iSlot, BYTE v);
 
 static void _Optlink processSetBoardSizeMenuItemMessage(HWND hwnd);
 static MRESULT EXPENTRY BoardSizeDialogProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2);
@@ -535,7 +531,7 @@ static MRESULT EXPENTRY WindowProcedure(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM
                   }
                   if(prf) closeAppProfile(prf);
 
-                  if(WinDlgBox(HWND_DESKTOP, hwnd, KeyMappingDlgProc, (HMODULE)NULLHANDLE, IDD_KEY_MAPPING, &wndData) == DID_OK)
+                  if(KmDialog(hwnd, wndData.keys))
                   {
                      saveControls(hwnd, wndData.keys);
                   }
@@ -870,6 +866,7 @@ static MRESULT EXPENTRY WindowProcedure(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM
 
       case WM_DESTROY:
          HelpDrop(WinQueryWindow(hwnd, QW_PARENT));
+         KmDone();
          if(wd) {
             if(wd->hwndObject != NULLHANDLE) {
                WinDestroyWindow(wd->hwndObject);
@@ -951,6 +948,8 @@ static BOOL _Optlink processCreateMessage(HWND hwnd, MPARAM mp1)
       memcpy(&wd->sizlGameBitmap, &ctldata->sizlBoard, sizeof(SIZEL));
 
       WinSetWindowPtr(hwnd, 0, wd);
+
+      KmInit(hab);            /* joystick driver and saved joystick mapping */
 
       /* Capture FID_ child handles for Frame Controls parking */
       wd->hwndTitleBar = WinWindowFromID(wd->hwndFrame, FID_TITLEBAR);
@@ -1274,193 +1273,11 @@ static BOOL _Optlink saveControls(HWND hwnd, PPLAYERKEYS playerKeys)
 }
 
 
-/* ?? Key Mapping Dialog helpers ??????????????????????????????????????????? */
+/* The Key Mapping dialog (keyboard and joystick) is in keymap.c */
 
-static void _Optlink scancodeToName(BYTE sc, char *buf, int cBuf)
+int _Optlink currentLanguage(void)
 {
-   static const struct { BYTE sc; const char *name; } aMap[] = {
-      {0x01,"Esc"}, {0x0E,"BkSp"}, {0x0F,"Tab"}, {0x1C,"Enter"},
-      {0x2A,"LShift"}, {0x36,"RShift"}, {0x38,"Alt"}, {0x39,"Space"},
-      {0x3A,"CapsLk"},
-      {0x3B,"F1"},{0x3C,"F2"},{0x3D,"F3"},{0x3E,"F4"},{0x3F,"F5"},
-      {0x40,"F6"},{0x41,"F7"},{0x42,"F8"},{0x43,"F9"},{0x44,"F10"},
-      {0x47,"Home"},{0x48,"Up"},{0x49,"PgUp"},
-      {0x4B,"Left"},{0x4C,"Num5"},{0x4D,"Right"},
-      {0x4F,"End"},{0x50,"Down"},{0x51,"PgDn"},
-      {0x52,"Ins"},{0x53,"Del"},
-      {0x57,"F11"},{0x58,"F12"},
-      {0x10,"Q"},{0x11,"W"},{0x12,"E"},{0x13,"R"},{0x14,"T"},
-      {0x15,"Y"},{0x16,"U"},{0x17,"I"},{0x18,"O"},{0x19,"P"},
-      {0x1E,"A"},{0x1F,"S"},{0x20,"D"},{0x21,"F"},{0x22,"G"},
-      {0x23,"H"},{0x24,"J"},{0x25,"K"},{0x26,"L"},
-      {0x2C,"Z"},{0x2D,"X"},{0x2E,"C"},{0x2F,"V"},
-      {0x30,"B"},{0x31,"N"},{0x32,"M"},
-      {0x02,"1"},{0x03,"2"},{0x04,"3"},{0x05,"4"},{0x06,"5"},
-      {0x07,"6"},{0x08,"7"},{0x09,"8"},{0x0A,"9"},{0x0B,"0"},
-      {0x0C,"-"},{0x0D,"="},{0x1A,"["},{0x1B,"]"},
-      {0x27,";"},{0x28,"'"},{0x2B,"\\"},
-      {0x33,","},{0x34,"."},{0x35,"/"},
-      {0,NULL}
-   };
-   int i = 0;
-   while(aMap[i].name)
-   {
-      if(aMap[i].sc == sc)
-      {
-         int j = 0;
-         while(j < cBuf-1 && aMap[i].name[j]) { buf[j] = aMap[i].name[j]; j++; }
-         buf[j] = 0;
-         return;
-      }
-      i++;
-   }
-   {
-      static const char hex[] = "0123456789ABCDEF";
-      if(cBuf >= 5)
-      {
-         buf[0]='0'; buf[1]='x';
-         buf[2]=hex[(sc>>4)&0xF]; buf[3]=hex[sc&0xF];
-         buf[4]=0;
-      }
-   }
-}
-
-static BYTE kmGetKey(PKEYMAPDATA wd, int iSlot)
-{
-   switch(iSlot)
-   {
-      case 0: return wd->keys[0].bCounterClockwise;
-      case 1: return wd->keys[0].bClockwise;
-      case 2: return wd->keys[0].bFire;
-      case 3: return wd->keys[1].bCounterClockwise;
-      case 4: return wd->keys[1].bClockwise;
-      default: return wd->keys[1].bFire;
-   }
-}
-
-static void kmSetKey(PKEYMAPDATA wd, int iSlot, BYTE v)
-{
-   switch(iSlot)
-   {
-      case 0: wd->keys[0].bCounterClockwise = v; break;
-      case 1: wd->keys[0].bClockwise = v; break;
-      case 2: wd->keys[0].bFire = v; break;
-      case 3: wd->keys[1].bCounterClockwise = v; break;
-      case 4: wd->keys[1].bClockwise = v; break;
-      default: wd->keys[1].bFire = v; break;
-   }
-}
-
-static void _Optlink kmUpdateButton(HWND hwnd, USHORT btnId, BYTE sc)
-{
-   char buf[16] = "";
-   scancodeToName(sc, buf, sizeof(buf));
-   WinSetDlgItemText(hwnd, btnId, buf);
-}
-
-static void kmUpdateAllButtons(HWND hwnd, PKEYMAPDATA wd)
-{
-   static const USHORT aIds[6] = {
-      BN_KM_P1_CCW, BN_KM_P1_CW, BN_KM_P1_FIRE,
-      BN_KM_P2_CCW, BN_KM_P2_CW, BN_KM_P2_FIRE
-   };
-   int i = 0;
-   for(; i < 6; i++)
-      kmUpdateButton(hwnd, aIds[i], kmGetKey(wd, i));
-}
-
-static MRESULT EXPENTRY KeyMappingDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
-{
-   MRESULT mReturn = 0;
-   BOOL fHandled = TRUE;
-   PKEYMAPDATA wd = (PKEYMAPDATA)(ULONG)WinQueryWindowULong(hwnd, QWL_USER);
-   static const USHORT aIds[6] = {
-      BN_KM_P1_CCW, BN_KM_P1_CW, BN_KM_P1_FIRE,
-      BN_KM_P2_CCW, BN_KM_P2_CW, BN_KM_P2_FIRE
-   };
-
-   switch(msg)
-   {
-      case WM_INITDLG:
-         wd = (PKEYMAPDATA)mp2;
-         WinSetWindowULong(hwnd, QWL_USER, (ULONG)wd);
-         centerDialogWindow(WinQueryWindow(hwnd, QW_PARENT), hwnd);
-         kmUpdateAllButtons(hwnd, wd);
-         break;
-
-      case WM_COMMAND:
-         switch(SHORT1FROMMP(mp1))
-         {
-            case BN_KM_P1_CCW:  wd->iCapturing = 0; break;
-            case BN_KM_P1_CW:   wd->iCapturing = 1; break;
-            case BN_KM_P1_FIRE: wd->iCapturing = 2; break;
-            case BN_KM_P2_CCW:  wd->iCapturing = 3; break;
-            case BN_KM_P2_CW:   wd->iCapturing = 4; break;
-            case BN_KM_P2_FIRE: wd->iCapturing = 5; break;
-
-            case BN_KM_DEFAULTS:
-            {
-               int pi = 0;
-               for(; pi < 2; pi++)
-                  setDefaultPlayerKeys(pi, &wd->keys[pi]);
-               wd->iCapturing = -1;
-               kmUpdateAllButtons(hwnd, wd);
-               break;
-            }
-
-            case DID_OK:
-               wd->iCapturing = -1;
-               WinDismissDlg(hwnd, DID_OK);
-               break;
-
-            case DID_CANCEL:
-               WinDismissDlg(hwnd, DID_CANCEL);
-               break;
-
-            default:
-               fHandled = FALSE;
-               break;
-         }
-         if(wd->iCapturing >= 0 && wd->iCapturing <= 5)
-         {
-            WinSetDlgItemText(hwnd, aIds[wd->iCapturing], "Press key...");
-            wd->prev_key = 0;
-            WinSetFocus(HWND_DESKTOP, hwnd);
-         }
-         break;
-
-      case WM_CHAR:
-         if(wd && wd->iCapturing >= 0)
-         {
-            USHORT fsflags = SHORT1FROMMP(mp1);
-            BYTE ucscancode = HIBYTE(SHORT2FROMMP(mp1));
-
-            if((fsflags & (KC_SCANCODE|KC_LONEKEY)) == (KC_SCANCODE|KC_LONEKEY)
-               && ucscancode == wd->prev_key
-               && ucscancode != 0)
-            {
-               int slot = wd->iCapturing;
-               kmSetKey(wd, slot, ucscancode);
-               kmUpdateButton(hwnd, aIds[slot], ucscancode);
-               wd->iCapturing = -1;
-            }
-            if((fsflags & KC_PREVDOWN) == 0)
-               wd->prev_key = ucscancode;
-         }
-         else
-         {
-            fHandled = FALSE;
-         }
-         break;
-
-      default:
-         fHandled = FALSE;
-         break;
-   }
-
-   if(!fHandled)
-      mReturn = WinDefDlgProc(hwnd, msg, mp1, mp2);
-   return mReturn;
+   return current_lang;
 }
 
 

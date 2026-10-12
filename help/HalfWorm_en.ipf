@@ -39,7 +39,7 @@ More information&colon.
 :h1 res=2102.Controls
 :i1.Controls
 :p.
-Each player uses three keys. The defaults are shown below; change them with Options - Keys. Keys are read directly from the keyboard, so several keys can be held at the same time.
+Each player uses three keys. The defaults are shown below; change them, or set up a joystick, with Options - Key Mapping. Keys are read directly from the keyboard, so several keys can be held at the same time.
 :p.
 :dl break=all.
 :dt.Player 1 - A
@@ -128,8 +128,8 @@ Apples appear from time to time on the board. What an apple does is a surprise, 
 :dl break=all.
 :dt.Board Size...
 :dd.Sets the width and height of the board in pixels. Maximize for desktop and Maximize for double size fit the board to the screen.
-:dt.Keys...
-:dd.Opens the key mapping dialog for both players.
+:dt.Key Mapping...
+:dd.Opens the Key Mapping dialog with a Keyboard page (the three keys of each player) and a Joystick page.
 :dt.Double window (Ctrl+D)
 :dd.Shows the game at twice the size.
 :dt.Sound effects
@@ -160,7 +160,7 @@ Apples appear from time to time on the board. What an apple does is a surprise, 
 :h1 res=2107.Copyright
 :i1.Copyright
 :p.
-HalfWorm for OS/2, version 0.9
+HalfWorm for OS/2, version 1.0
 :p.
 Copyright (C) 1997 Jan M. Danielsson. Open Watcom build and extensions, 2026, OS2World.
 :p.
@@ -176,7 +176,7 @@ Sets the size of the playing board in pixels. Width and Height are the two value
 :h1 res=2109.Key mapping
 :i1.Key mapping
 :p.
-Choose the three keys of each player&colon. counterclockwise rotation (CCW), clockwise rotation (CW) and fire. Click a button and press the key you want to use. Defaults restores the standard keys. OK saves the keys, Cancel discards the changes.
+The Keyboard page sets the three keys of each player&colon. counterclockwise rotation (CCW), clockwise rotation (CW) and fire. Click a button and press the key you want to use. The Joystick page sets up joysticks&colon. tick Enable Joystick, choose Joystick A or B for each player, click a box and press a joystick button or move the stick (Delete clears), and use Calibrate A / B to set the centre of a stick. The keyboard and the joystick work together. Default restores the standard keys and joystick settings. OK saves the changes, Cancel discards them.
 
 :h1 res=2110.Sound effects volume
 :i1.Sound effects volume

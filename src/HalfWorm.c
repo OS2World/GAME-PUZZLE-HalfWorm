@@ -5,7 +5,7 @@
 #define INCL_WINSYS
 
 const char bldlevel[] =
-    "@#OS2World:0.9#@##1## " __DATE__ "      "
+    "@#OS2World:1.0#@##1## " __DATE__ "      "
     "ARCAOS:::0::::@@HalfWorm for OS/2\r\n\x1a";
 
 #ifdef DEBUG_TERM

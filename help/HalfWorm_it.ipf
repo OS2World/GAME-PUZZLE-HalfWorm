@@ -39,7 +39,7 @@ Altre informazioni&colon.
 :h1 res=2102.Comandi
 :i1.Comandi
 :p.
-Ogni giocatore usa tre tasti. Quelli predefiniti sono indicati qui sotto; si cambiano con Opzioni - Tasti. I tasti vengono letti direttamente dalla tastiera, quindi se ne possono tenere premuti piu di uno contemporaneamente.
+Ogni giocatore usa tre tasti. Quelli predefiniti sono mostrati sotto; cambiali, o configura un joystick, in Opzioni - Assegnazione tasti. I tasti sono letti direttamente dalla tastiera, quindi se ne possono tenere premuti piu insieme.
 :p.
 :dl break=all.
 :dt.Giocatore 1 - A
@@ -128,8 +128,8 @@ Ogni tanto sul campo compaiono delle mele. L'effetto di ogni mela e una sorpresa
 :dl break=all.
 :dt.Dimensione campo...
 :dd.Imposta larghezza e altezza del campo in pixel. Massimizza per il desktop e Massimizza per dimensione doppia adattano il campo allo schermo.
-:dt.Tasti...
-:dd.Apre la finestra per assegnare i tasti dei due giocatori.
+:dt.Assegnazione tasti...
+:dd.Apre la finestra di assegnazione dei tasti con una pagina Tastiera (i tre tasti di ogni giocatore) e una pagina Joystick.
 :dt.Finestra doppia (Ctrl+D)
 :dd.Mostra il gioco a dimensione doppia.
 :dt.Effetti sonori
@@ -160,7 +160,7 @@ Ogni tanto sul campo compaiono delle mele. L'effetto di ogni mela e una sorpresa
 :h1 res=2107.Copyright
 :i1.Copyright
 :p.
-HalfWorm per OS/2, versione 0.9
+HalfWorm per OS/2, versione 1.0
 :p.
 Copyright (C) 1997 Jan M. Danielsson. Compilazione Open Watcom ed estensioni, 2026, OS2World.
 :p.
@@ -176,7 +176,7 @@ Imposta la dimensione del campo di gioco in pixel. Larghezza e Altezza sono i du
 :h1 res=2109.Assegnazione dei tasti
 :i1.Assegnazione dei tasti
 :p.
-Scegliete i tre tasti di ogni giocatore&colon. rotazione antioraria (CCW), rotazione oraria (CW) e fuoco. Fate clic su un pulsante e premete il tasto desiderato. Predefiniti ripristina i tasti standard. OK salva i tasti, Annulla scarta le modifiche.
+La pagina Tastiera imposta i tre tasti di ogni giocatore&colon. rotazione a sinistra (CCW), rotazione a destra (CW) e fuoco. Fai clic su un pulsante e premi il tasto da usare. La pagina Joystick configura i joystick&colon. attiva Attiva joystick, scegli Joystick A o B per ogni giocatore, fai clic su una casella e premi un pulsante del joystick o muovi la leva (Canc cancella) e usa Calibra A / B per impostare il centro della leva. Tastiera e joystick funzionano insieme. Predefinito ripristina i tasti e il joystick standard. OK salva le modifiche, Annulla le scarta.
 
 :h1 res=2110.Volume degli effetti sonori
 :i1.Volume degli effetti sonori
